@@ -1,0 +1,11 @@
+.bottom-navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+.bottom-navigation p{
+    color: #A11BB7;
+    font-size: 16px;
+    font-weight: 700;
+}

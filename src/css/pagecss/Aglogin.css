@@ -1,0 +1,119 @@
+.login-main{
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+    height: 92vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+.login-main h2{
+    color: #9317a7;
+    font-size: 29px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 26px;
+}
+
+.login-form-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    width: 45%;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 1px 1px 10px grey;
+    
+
+}
+.login-input-container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-bottom: 10px;
+}
+.login-button-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 90%;
+}
+.login-input-container input{
+    margin-bottom:6px;
+    margin-left: 14px;
+    height:50px;
+    width: 96%;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #9317a7;
+    font-size: 16px;
+    border-width: 1px;
+}
+.login-button-container button{
+    margin-bottom:5px ;
+    margin-left: 15px;
+    
+    border-radius: 5px;
+}
+.login-button{
+    background-color: #9317a7;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-color: #9317a7;
+}
+.login-button-outlined{
+    color: #9317a7;
+    font-size: 16px;
+    font-weight: bold;
+    border-style: none;
+    background-color: rgb(255, 242, 253);
+}
+
+.signup-b-modal{
+    margin-left: 20px;
+}
+.down-modals h3{
+    margin-left: 30px;
+}
+
+@media only screen and (max-width: 850px) {
+    .login-form-container{
+        width: 90%;
+    }
+    .login-input-container input{
+        width: 97%;
+        margin-left: 0;
+    }
+    .login-button-container{
+        width: 100%;
+    }
+    .agent-container{
+        width: 97%;
+        margin-left: 0;
+    }
+    .login-main h2{
+        color: #9317a7;
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 0px;
+        margin-bottom: 26px;
+        width:70%;
+        text-align: center;
+    }
+    .login-text-container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .down-modals{
+        margin-top: 10px;
+    }
+    .down-modals h3{
+        font-weight: 400;
+        font-size: 14px;
+        margin-left: 3px;
+    }
+}

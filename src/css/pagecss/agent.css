@@ -1,0 +1,129 @@
+.post-main{
+    overflow-y: hidden;
+}
+.agent-mainpage{
+    margin-top: 80px;
+    height: 82vh;
+    width: 97vw;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+}
+.profile-details-container{
+    padding-left: 10px;
+    padding-right:10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 8%;
+    align-items: center;
+
+}
+.profile-data-container{
+    width: fit-content;
+}
+.pimage-container{
+    height: 200px;
+    width: 200px;
+    background-color: #a21bb738;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.name-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 10px;
+}
+.name-container h4{
+    margin: 0;
+    font-size: larger;
+}
+.name-container p{
+    font-size: large;
+}
+.agent-detail-button-container{
+    width: 100%;
+}
+.add-home-button{
+    width: 100%;
+    background-color:#A11BB7 ;
+    border-style: solid;
+    border-color: #A11BB7;
+    border-radius: 5px;
+}
+.add-home-button h4{
+    margin: 8px;
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+}
+.post-text-container h2{
+    color: #9317a7;
+    font-style: italic;
+    font-size: 29px;
+    font-weight: bold;
+}
+.posts-container{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.profile-image{
+    height: 190px;
+    width: 190px;
+    border-radius: 150px;
+    object-fit: cover;
+    aspect-ratio: 1.5px;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .profile-details-container{
+        padding-left: 0px;
+        padding-right:0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 10px;
+        align-items: center;
+    
+    }
+    .pimage-container{
+        height: 100px;
+        width: 100px;
+        background-color: #a21bb738;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .agent-mainpage{
+        margin-top: 70px;
+        height: 82vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+        overflow: hidden;
+    }
+    .name-container p{
+        font-size: 14px;
+        margin: 4px 0;
+    }
+    .name-container h4{
+        margin: 0;
+        font-size: 14px;
+    }
+    .post-text-container h2{
+        color: #9317a7;
+        font-style: italic;
+        font-size: 23px;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+}

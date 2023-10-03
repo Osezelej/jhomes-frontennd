@@ -1,0 +1,115 @@
+.brand-name{
+    font-family: san-serif;
+    font-weight: 900;
+    color: #A11BB7;
+    margin-left: 27px;
+    font-style: italic;
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+.navibar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    background-color: white;
+    height: 80px;
+    top: 0;
+}
+.navigation-container{
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+    justify-content: center;
+}
+.logo-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.route{
+    margin-right: 20px;
+    color: #3C343E;
+    font-size: 18px;
+}
+.route:hover{
+    transition-duration: 0.2s;
+    color:#A11BB7;
+    font-size: larger;
+}
+
+.route:active{
+    color: #7a138a;
+}
+a {
+    text-decoration: none;
+    font-weight: 500;
+}
+.login-user-icon-container{
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mobile-drawer-container{
+    display: none;
+}
+
+
+@media only screen and (max-width: 850px) {
+    .brand-name{
+        font-family: 'Inter', san-serif;
+        font-weight: 900;
+        color: #A11BB7;
+        margin-left: 10px;
+        font-style: italic;
+        font-size: 30px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        cursor: pointer;
+    }
+    .navigation-container{
+        display: none;
+    }
+    .navigation-containerm{
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        margin-left: 10px;
+    }
+    .mobile-drawer-container{
+        display: flex;
+        align-items: center;
+
+
+    }
+    .navi-menu-container:active{
+        border-radius: 5;
+        border-width: 1.5px;
+        border-color: #A11BB7;
+    }
+    .login-user-icon-container{
+        display: none;
+    }
+    .mobile-drawer-container .login-user-icon-container{
+        display: flex;
+    }
+    .navibar{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: fixed;
+        z-index: 1000;
+        width: 97%;
+        background-color: white;
+        height: 60px;
+        top: 0;
+        justify-content: space-between;
+        margin-right: 5%;
+    }
+  }

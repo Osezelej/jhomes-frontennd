@@ -1,0 +1,45 @@
+*{
+    transition-duration: 0.3s;
+}
+.filter-option-container{
+    box-shadow: 1px 1px 10px grey;
+    position: absolute;
+    width: 11%;
+    margin-top: 40px;
+    height: 200px;
+    overflow-y: scroll;
+    background-color: white;
+}
+.optionContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: #A11BB7;
+}
+.optionContainer:hover{
+    background-color: #A11BB7;
+    color: white;
+}
+@media only screen and (max-width: 850px) {
+    .filter-option-container{
+        box-shadow: 1px 1px 10px grey;
+        position: absolute;
+        width: 30%;
+        margin-top: 40px;
+        height: 200px;
+        overflow-y: scroll;
+        background-color: white;
+    }
+    .optionContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: #A11BB7;
+    }
+    .optionContainer:hover{
+        background-color: #A11BB7;
+        color: white;
+    }
+}

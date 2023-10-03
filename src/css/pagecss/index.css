@@ -1,0 +1,370 @@
+*{
+    transition-duration: 0.3s;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+.pagebody{
+    height: 100%;
+}
+.imageContainer{
+    height: 450px;
+}
+.imageContainer img{
+    width: 100%;
+    height: inherit;
+    aspect-ratio: 9/6;
+    object-fit:cover;
+}
+.search-comp-container{
+    height: 350px;
+    width: 92.7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    align-items: center;
+    background-color:transparent;
+    position: absolute;
+    top: 0px;
+    z-index: 3;
+    margin-top: 90px;
+}
+
+.search-comp-container h2{
+    font-size: 39px;
+    color:#ffffff;
+    font-weight: bolder;
+    width: 47%;
+    text-shadow: 1px 5px 10px #42094b;
+    text-align: center;
+}
+
+.seachNavi{
+    height: 45px;
+    border-radius: 10px;
+    border-width: 2px;
+    width: 70%;
+    border-color: #A11BB7;
+    border-style:solid;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.index-search-container img{
+    position: relative;
+    right: 40px;
+    top: 8px;
+
+    
+}
+
+.index-seachNavi{
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    border-width: 1.5px;
+    border-color: #A11BB7;
+    border-style:solid;
+    font-size: 16px;
+    padding-left: 10px;
+}
+.moreDetails-container{
+    margin: 3px 10% 30px 10%;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+.details-container{
+    height:420px;
+    background-color: #fff;
+    display: flex;
+    width: 27%;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 15px rgba(110, 52, 117, 0.767);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    justify-content: space-between;
+}
+.details-container h2{
+    font-size: 25px;
+    font-family: 'Inter', sans-serif;
+    color: #A11BB7;
+    font-weight: bolder;
+}
+.details-container p{
+    margin: 30px 27px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #3C343E;
+    text-align: justify;
+}
+
+.details-container button{
+    height: 45px;
+    font-size: larger;
+    width: 70%;
+    color: #A11BB7;
+    border-color: #A11BB7;
+    border-width: 1.5px;
+    border-style: solid;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition-duration: 0.25s;
+}
+.details-container:hover{
+    transform: scale(1.07);
+}
+.contact-us-container{
+    width: 94.5%;
+    background-color: #e27df238;
+    padding: 20px 35px;
+}
+.contact-us-container h2{
+    color: #9317a7;
+    font-style: italic;
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.contact-us-container div{
+    display: flex;
+    align-items: center;
+}
+.contact-us-container p{
+    margin-left: 10px;
+    font-size: 18px;
+    color: #3C343E;
+}
+.postahome-signin-container{
+    display: flex;
+    padding-top: 30px;
+}
+.postahome-container{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+}
+.postahome-container p{
+    width: 70%;
+    font-size: xx-large;
+    text-align: center;
+    color: #3C343E;
+}
+.postahome-button-container{
+    width: 50%;
+    display: flex;
+    height: 250px;
+}
+.postahome-button-container button{
+    width: 41%;
+    color: #A11BB7;
+    border-color: #A11BB7;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1.5px;
+    background-color: #fff;
+    height: 50px;
+    margin-top: 13.5%;
+    font-size:x-large;
+    font-weight: 500;
+}
+
+.postahome-button-container button:hover{
+    background-color: #A11BB7;
+    color: #fff;
+}
+.modal-main-container{
+    background-color: white;
+    width: 35%;
+    height: 40%;
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.close-button-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    flex: 1;
+}
+.oauth-buttons-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 8;
+}
+
+.button-1-container{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button-1-container button{
+    background-color: white;
+    margin-top: 10px;
+    width: 47% ;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+    border-color: #A11BB7;
+    border-style: solid;
+    border-width: 1.5px;
+    cursor: pointer;
+
+}
+.content-container{
+    width: 70%;
+}
+
+@media only screen and (max-width: 850px) {
+    .search-comp-container{
+        width: 100%;
+    }
+    .modal-main-container{
+        background-color: white;
+        width: 53%;
+        height: 40%;
+        border-radius: 5px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .search-comp-container h2{
+        font-size: 27px;
+        color:#ffffff;
+        font-weight: bolder;
+        width: 65%;
+        text-shadow: 1px 5px 10px #42094b;
+        text-align: center;
+    }
+    .index-seachNavi{
+        width: 100%;
+        height: 45px;
+        border-radius: 10px;
+        border-width: 1.5px;
+        border-color: #A11BB7;
+        border-style:solid;
+        font-size: 16px;
+        padding-left: 10px;
+    }
+    .postahome-button-container{
+        width: 100%;
+        display: flex;
+        height: 50%;
+        justify-content: center;
+        align-items: flex-start;
+        
+    }
+    .postahome-signin-container{
+        display: flex;
+        padding-top: 30px;
+        flex-direction: column;
+        height: 200px;
+    }
+    .postahome-container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50%;
+    }
+    .postahome-container p{
+        width: 90%;
+        font-size: x-large;
+        text-align: center;
+        color: #3C343E;
+    }
+    .postahome-button-container button{
+        width: 50%;
+        color: #A11BB7;
+        border-color: #A11BB7;
+        border-radius: 5px;
+        border-style: solid;
+        border-width: 1.5px;
+        background-color: #fff;
+        font-size:x-large;
+        font-weight: 500;
+        margin-top: 0;
+    }
+    .content-container{
+        width: 95%;
+    }
+    .contact-us-container{
+        padding: 10px 15px;
+    }
+    .moreDetails-container{
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 30px;
+        align-items: center;
+    }
+    .details-container{
+        height:250px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        display: flex;
+        width: 95%;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: 0px 0px 15px rgba(110, 52, 117, 0.767);
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-radius: 5px;
+        justify-content: space-between;
+    }
+    .pagebody{
+        margin-top: 0px;
+    }
+    .index-search-container img{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .modal-main-container{
+        background-color: white;
+        width: 90%;
+        height: 40%;
+        border-radius: 5px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .index-seachNavi{
+        width: 300px;
+        height: 45px;
+        border-radius: 10px;
+        border-width: 1.5px;
+        border-color: #A11BB7;
+        border-style:solid;
+        font-size: 16px;
+        padding-left: 10px;
+    }
+    .search-comp-container h2{
+        font-size: 27px;
+        color:#ffffff;
+        font-weight: bolder;
+        width: 85%;
+        text-shadow: 1px 5px 10px #42094b;
+        text-align: center;
+    }
+
+}
