@@ -62,6 +62,7 @@ export default function AddHomeImages() {
     dinningRoom: [],
   });
 
+  const [uploadImageFiles, setUploadImageFiles] = useState([])
   // handleImage
   function handleImage(e) {
     if (e.target.name === "bedRoom") {
@@ -116,6 +117,51 @@ export default function AddHomeImages() {
     }
   }, [dinsamesit]);
 
+  //   prepare upload file
+  function prepareUploadImage(){
+    let homeImageArray = Object.entries(homeImage)
+    setUploadImageFiles(homeImageArray.map((val)=>{
+        if (val[0].length > 0){
+            
+        return val 
+        }
+    })) 
+    
+  }
+
+    // upload image
+     async function uploadimage(){
+        let formdata = new FormData();
+        // console.log(uploadImageFiles)
+        for (let value of uploadImageFiles){
+            for (let data of value[1]){
+                formdata.append(value[0], data)
+
+            }
+        }
+        
+        for (let value of formdata.entries()){
+            console.log(value[0], value[1])
+        }
+
+        let response = await fetch('http://127.0.0.1:4000/image/upload', {
+            method:"POST",
+            body:formdata
+        })
+        if (response.ok ){
+            console.log("success");
+            // console.log(await response.json())
+        }else{
+            console.log('error')
+        }
+    }
+
+    useEffect(()=>{
+        if (uploadImageFiles.length > 0){
+            uploadimage();
+        }
+    }, [uploadImageFiles])
+    
   return (
     <main className="addhome-main">
       <Drawer
@@ -228,6 +274,7 @@ export default function AddHomeImages() {
                 disabled={activityIndicator2}
                 className="next-button"
                 onClick={() => {
+                  console.log(homeImage);
                   setActivityIndicator2(true);
                   setTimeout(() => {
                     setslideup2((prev) => !prev);
@@ -305,6 +352,7 @@ export default function AddHomeImages() {
                 disabled={activityIndicator4}
                 className="next-button"
                 onClick={() => {
+                  console.log(homeImage);
                   setActivityIndicator4(true);
                   setTimeout(() => {
                     setslideup3((prev) => !prev);
@@ -368,6 +416,7 @@ export default function AddHomeImages() {
                 disabled={activityIndicator6}
                 className="next-button"
                 onClick={() => {
+                  console.log(homeImage);
                   setActivityIndicator6(true);
                   setTimeout(() => {
                     setslideup4((prev) => !prev);
@@ -447,11 +496,13 @@ export default function AddHomeImages() {
                 disabled={activityIndicator8}
                 className="next-button"
                 onClick={() => {
-                  setActivityIndicator8(true);
-                  setTimeout(() => {
-                    setSuccessDrawer(true);
-                    setActivityIndicator8(false);
-                  }, 1000);
+                //   console.log(homeImage);
+                  prepareUploadImage()
+                //   setActivityIndicator8(true);
+                //   setTimeout(() => {
+                //     setSuccessDrawer(true);
+                //     setActivityIndicator8(false);
+                //   }, 1000);
                 }}
               >
                 {activityIndicator8 ? (

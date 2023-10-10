@@ -235,7 +235,7 @@ body{
 
 @media only screen and (max-width: 850px) {
     .search-comp-container{
-        width: 100%;
+        width: 95%;
     }
     .modal-main-container{
         background-color: white;
@@ -363,8 +363,10 @@ body{
         color:#ffffff;
         font-weight: bolder;
         width: 85%;
-        text-shadow: 1px 5px 10px #42094b;
+        text-shadow: 1px 5px 10px #c2a2c7;
         text-align: center;
     }
-
+    .search-comp-container{
+        width: 100% ;
+    }
 }
