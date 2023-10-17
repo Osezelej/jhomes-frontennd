@@ -2,11 +2,16 @@ import Navigation from "../components/navigationBar";
 import "../css/pagecss/AddHome.css";
 import { useEffect, useState } from "react";
 import { Alert, Collapse, Drawer, Switch } from "@mui/material";
-import { ThumbUp } from "@mui/icons-material";
+import { Flare, ThumbUp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { homedetailstate } from "../store/signuphome";
+import { BaseUrl } from "../config";
+import ImageNoti from '../components/imageNoti.js'
 
 export default function AddHomeImages() {
+  const val = useSelector(homedetailstate)
   //   async function getFile() {
   //     try {
   //       const [filehandle] = await window.showOpenFilePicker({
@@ -28,6 +33,7 @@ export default function AddHomeImages() {
   //       setAlertError(true);
   //     }
   //   }
+  // console.log(val, 'nonjfnj')
   const [alertError, setAlertError] = useState(false);
   const [slideup, setslideup] = useState(true);
   const [slideup2, setslideup2] = useState(false);
@@ -65,55 +71,75 @@ export default function AddHomeImages() {
   const [uploadImageFiles, setUploadImageFiles] = useState([])
   // handleImage
   function handleImage(e) {
-    if (e.target.name === "bedRoom") {
-      setHomeImage((prev) => {
-        return { ...prev, bedRoom: [...prev.bedRoom, e.target.files[0]] };
-      });
-      console.log(e.target.files);
-    } else if (e.target.name === "bathRoom") {
-      setHomeImage((prev) => {
-        return { ...prev, bathRoom: [...prev.bathRoom, e.target.files[0]] };
-      });
-      console.log(e.target.files);
-    } else if (e.target.name === "toilet") {
-      setHomeImage((prev) => {
-        return { ...prev, toilet: [...prev.toilet, e.target.files[0]] };
-      });
-      console.log(e.target.files);
-    } else if (e.target.name === "sittingRoom") {
-      setHomeImage((prev) => {
-        return {
-          ...prev,
-          sittingRoom: [...prev.sittingRoom, e.target.files[0]],
-        };
-      });
-      console.log(e.target.files);
-    } else {
-      setHomeImage((prev) => {
-        return {
-          ...prev,
-          dinningRoom: [...prev.dinningRoom, e.target.files[0]],
-        };
-      });
-      console.log(e.target.files);
+    if(e.target.files[0] != undefined){
+        if (e.target.name === "bedRoom") {
+        
+          setHomeImage((prev) => {
+            return { ...prev, bedRoom: [...prev.bedRoom, e.target.files[0]] };
+          });
+
+        } else if (e.target.name === "bathRoom") {
+          setHomeImage((prev) => {
+            return { ...prev, bathRoom: [...prev.bathRoom, e.target.files[0]] };
+          });
+          console.log(e.target.files);
+        } else if (e.target.name === "toilet") {
+          setHomeImage((prev) => {
+            return { ...prev, toilet: [...prev.toilet, e.target.files[0]] };
+          });
+          console.log(e.target.files);
+        } else if (e.target.name === "sittingRoom") {
+          setHomeImage((prev) => {
+            return {
+              ...prev,
+              sittingRoom: [...prev.sittingRoom, e.target.files[0]],
+            };
+          });
+          console.log(e.target.files);
+        } else {
+          setHomeImage((prev) => {
+            return {
+              ...prev,
+              dinningRoom: [...prev.dinningRoom, e.target.files[0]],
+            };
+          });
+          console.log(e.target.files);
+        }
+        
     }
+    
   }
   const imageData = {
-    bedroom: 4,
-    bathroom: 3,
-    sittingroom: 1,
-    dining: 1,
-    toilet: 3,
+    bedroom: parseInt(val.homeDescription.bedroom),
+    bathroom: parseInt(val.homeDescription.bathroom),
+    sittingroom: parseInt(val.homeDescription.sittingRoom),
+    dining: parseInt(val.homeDescription.dinningRoom),
+    toilet: parseInt(val.homeDescription.toilet),
   };
+
   useEffect(() => {
-    if (toisamebath) {
+    if (toisamebath) { 
       setslideup3(false);
       setslideup4(true);
+      setHomeImage((prev)=>{
+        return {
+          ...prev,
+          toilet:[]
+          
+        }
+      })
     }
   }, [toisamebath]);
   useEffect(() => {
     if (dinsamesit) {
       setSuccessDrawer(true);
+      setHomeImage((prev)=>{
+        return {
+          ...prev,
+          dinningRoom:[]
+          
+        }
+      })
     }
   }, [dinsamesit]);
 
@@ -144,7 +170,7 @@ export default function AddHomeImages() {
             console.log(value[0], value[1])
         }
 
-        let response = await fetch('http://127.0.0.1:4000/image/upload', {
+        let response = await fetch(BaseUrl + '/image/upload', {
             method:"POST",
             body:formdata
         })
@@ -162,7 +188,14 @@ export default function AddHomeImages() {
         }
     }, [uploadImageFiles])
     
+
+    useEffect(()=>{
+      console.log(homeImage)
+    }, [homeImage]);
+
   return (
+    // IMAGE SELECTION ERROR - please an image must be selected for all
+    // the input.
     <main className="addhome-main">
       <Drawer
         anchor="bottom"
@@ -174,8 +207,7 @@ export default function AddHomeImages() {
         >
           <Alert severity="error">
             <p style={{ marginTop: 0 }}>
-              IMAGE SELECTION ERROR - please an image must be selected for all
-              the input.
+             {alertError}
             </p>
           </Alert>
         </div>
@@ -186,15 +218,37 @@ export default function AddHomeImages() {
         <Collapse in={slideup}>
           <div className={`home-detail-container`}>
             <h2>Bedrooms Images</h2>
+            <div className="image-containerNoti" style={{display:"flex", margin:5, flexWrap:"wrap"}}>
+              {homeImage.bedRoom.map((value , bedroomIndex)=>{
+                return <ImageNoti 
+                  filename={value.name}
+                  handleDeleteFile={()=>{
+                    setHomeImage((prev)=>{
+                      return {
+                        ...prev,
+                        bedRoom:prev.bedRoom.filter((_, index)=>{
+                          return bedroomIndex != index;
+                        })
+                      }
+                    })
+                  }}
+                 />
+              })}
+            </div>
             <div className="home-form-container">
               {[...Array(imageData.bedroom).keys()].map((value, index) => {
+
                 return (
                   <div className="input-container" key={value}>
                     <div className="input-tabs">
                       <input
+                        // value={homeImage.} 
+                        placeholder={"bedroom " + index + 1 }
                         name="bedRoom"
                         onChange={(e) => {
                           handleImage(e);
+                          console.log(index)
+                          console.log(homeImage.bedRoom[0])
                         }}
                         type="file"
                         accept=".png, .gif, .jpeg, .jpg"
@@ -210,13 +264,19 @@ export default function AddHomeImages() {
                 disabled={activityIndicator}
                 className="next-button"
                 onClick={() => {
-                  console.log(homeImage);
-                  setActivityIndicator(true);
+                  // console.log(homeImage);
+                  if (homeImage.bedRoom.length === imageData.bedroom){
+                    setActivityIndicator(true);
                   setTimeout(() => {
                     setslideup((prev) => !prev);
                     setslideup2((prev) => !prev);
                     setActivityIndicator(false);
                   }, 1000);
+                  return ;
+                  }
+
+                  setAlertError('IMAGE SELECTION ERROR - Ensure the image selected is same as the number of bedroom available.')
+                  
                 }}
               >
                 {activityIndicator ? (
@@ -232,12 +292,31 @@ export default function AddHomeImages() {
         <Collapse in={slideup2}>
           <div className={`home-detail-container`}>
             <h2>Bathrooms Images</h2>
+            <div className="image-containerNoti" style={{display:"flex", margin:5, flexWrap:"wrap", justifySelf:'flex-start'}}>
+              {homeImage.bathRoom.map((value , bathroomIndex)=>{
+                  return <ImageNoti 
+                    filename={value.name}
+                    handleDeleteFile={()=>{
+                      setHomeImage((prev)=>{
+                        return {
+                          ...prev,
+                          bathRoom:prev.bathRoom.filter((_, index)=>{
+                            return bathroomIndex != index;
+                          })
+                        }
+                      })
+                    }}
+                  />
+                })}
+            </div>
+            
             <div className="home-form-container">
               {[...Array(imageData.bathroom).keys()].map((value, index) => {
                 return (
                   <div className="input-container" key={value}>
                     <div className="input-tabs">
                       <input
+                        // value={homeImage.bathRoom[index] == undefined ? '': homeImage.bathRoom[index].name}
                         onChange={(e) => {
                           handleImage(e);
                         }}
@@ -274,13 +353,17 @@ export default function AddHomeImages() {
                 disabled={activityIndicator2}
                 className="next-button"
                 onClick={() => {
-                  console.log(homeImage);
-                  setActivityIndicator2(true);
-                  setTimeout(() => {
-                    setslideup2((prev) => !prev);
-                    setslideup3((prev) => !prev);
-                    setActivityIndicator2(false);
-                  }, 1000);
+                  if(homeImage.bathRoom.length === imageData.bathroom){
+                    setActivityIndicator2(true);
+                    setTimeout(() => {
+                      setslideup2((prev) => !prev);
+                      setslideup3((prev) => !prev);
+                      setActivityIndicator2(false);
+                    }, 1000);
+                    return ;
+                  }
+                  setAlertError('IMAGE SELECTION ERROR - Ensure the image selected is same as the number of bathroom available.')
+                  
                 }}
               >
                 {activityIndicator2 ? (
@@ -295,7 +378,24 @@ export default function AddHomeImages() {
         <Collapse in={slideup3}>
           <div className={`home-detail-container`}>
             <h2>Toilet Images</h2>
-
+            <div className="image-containerNoti" style={{display:"flex", margin:5, flexWrap:"wrap"}}>
+              {homeImage.toilet.map((value , toiletIndex)=>{
+                  return <ImageNoti 
+                    filename={value.name}
+                    handleDeleteFile={()=>{
+                      setHomeImage((prev)=>{
+                        return {
+                          ...prev,
+                          toilet:prev.toilet.filter((_, index)=>{
+                            return toiletIndex != index;
+                          })
+                        }
+                      })
+                    }}
+                  />
+                })}
+            </div>
+            
             <Alert severity="warning">
               If the toilet and bathroom are the same you can just click on the
               switch
@@ -316,6 +416,7 @@ export default function AddHomeImages() {
                   <div className="input-container" key={value}>
                     <div className="input-tabs">
                       <input
+                        // value={homeImage.toilet[index] == undefined ? '': homeImage.toilet[index].name}
                         name="toilet"
                         onChange={(e) => {
                           handleImage(e);
@@ -352,13 +453,17 @@ export default function AddHomeImages() {
                 disabled={activityIndicator4}
                 className="next-button"
                 onClick={() => {
-                  console.log(homeImage);
-                  setActivityIndicator4(true);
-                  setTimeout(() => {
-                    setslideup3((prev) => !prev);
-                    setslideup4((prev) => !prev);
-                    setActivityIndicator4(false);
-                  }, 1000);
+                  if (homeImage.toilet.length === imageData.toilet){
+                    setActivityIndicator4(true);
+                    setTimeout(() => {
+                      setslideup3((prev) => !prev);
+                      setslideup4((prev) => !prev);
+                      setActivityIndicator4(false);
+                    }, 1000);
+                    return ;
+                  }
+                  setAlertError('IMAGE SELECTION ERROR - Ensure the image selected is same as the number of toilet available.')
+                  
                 }}
               >
                 {activityIndicator4 ? (
@@ -373,13 +478,31 @@ export default function AddHomeImages() {
         <Collapse in={slideup4}>
           <div className={`home-detail-container`}>
             <h2>Sittingroom Images</h2>
-
+            <div className="image-containerNoti" style={{display:"flex", margin:5, flexWrap:"wrap"}}>
+              {homeImage.sittingRoom.map((value , sittingroomIndex)=>{
+                  return <ImageNoti 
+                    filename={value.name}
+                    handleDeleteFile={()=>{
+                      setHomeImage((prev)=>{
+                        return {
+                          ...prev,
+                          sittingRoom:prev.sittingRoom.filter((_, index)=>{
+                            return sittingroomIndex != index;
+                          })
+                        }
+                      })
+                    }}
+                  />
+                })}
+            </div>
+            
             <div className="home-form-container">
               {[...Array(imageData.sittingroom).keys()].map((value, index) => {
                 return (
                   <div className="input-container" key={value}>
                     <div className="input-tabs">
                       <input
+                      // value={homeImage.sittingRoom[index] == undefined ? '': homeImage.sittingRoom[index].name}
                         onChange={(e) => {
                           handleImage(e);
                         }}
@@ -416,13 +539,18 @@ export default function AddHomeImages() {
                 disabled={activityIndicator6}
                 className="next-button"
                 onClick={() => {
-                  console.log(homeImage);
-                  setActivityIndicator6(true);
-                  setTimeout(() => {
-                    setslideup4((prev) => !prev);
-                    setslideup5((prev) => !prev);
-                    setActivityIndicator6(false);
-                  }, 1000);
+                  if (homeImage.sittingRoom.length === imageData.sittingroom){
+                      setActivityIndicator6(true);
+                      setTimeout(() => {
+                        setslideup4((prev) => !prev);
+                        setslideup5((prev) => !prev);
+                        setActivityIndicator6(false);
+                      }, 1000);
+                      return ;
+
+                  }
+                  setAlertError('IMAGE SELECTION ERROR - Ensure the image selected is same as the number of sitting room available.')
+                  
                 }}
               >
                 {activityIndicator6 ? (
@@ -437,6 +565,23 @@ export default function AddHomeImages() {
         <Collapse in={slideup5}>
           <div className={`home-detail-container`}>
             <h2>Dining room Images</h2>
+            <div className="image-containerNoti" style={{display:"flex", margin:5, flexWrap:"wrap"}}>
+              {homeImage.dinningRoom.map((value , droomIndex)=>{
+                  return <ImageNoti 
+                    filename={value.name}
+                    handleDeleteFile={()=>{
+                      setHomeImage((prev)=>{
+                        return {
+                          ...prev,
+                          dinningRoom:prev.dinningRoom.filter((_, index)=>{
+                            return droomIndex != index;
+                          })
+                        }
+                      })
+                    }}
+                  />
+                })}
+            </div>
             <Alert severity="warning">
               If the Dining room and sitting room are the same you can just
               click on the switch
@@ -457,6 +602,7 @@ export default function AddHomeImages() {
                   <div className="input-container" key={value}>
                     <div className="input-tabs">
                       <input
+                        // value={homeImage.dinningRoom[index] == undefined ? '': homeImage.dinningRoom[index].name}
                         onChange={(e) => {
                           handleImage(e);
                         }}
@@ -497,7 +643,12 @@ export default function AddHomeImages() {
                 className="next-button"
                 onClick={() => {
                 //   console.log(homeImage);
-                  prepareUploadImage()
+                  if(homeImage.dinningRoom.length === imageData.dining){
+                    prepareUploadImage();
+                    return ;
+
+                  }
+                  setAlertError('IMAGE SELECTION ERROR - Ensure the image selected is same as the number of sitting room available.')
                 //   setActivityIndicator8(true);
                 //   setTimeout(() => {
                 //     setSuccessDrawer(true);
@@ -524,7 +675,7 @@ export default function AddHomeImages() {
         open={succesDrawer}
         onClose={() => {
           setSuccessDrawer(false);
-          navigate("/agent/osezelej");
+          // navigate("/agent/osezelej");
         }}
       >
         <div style={{ padding: 20, display: "flex", alignItems: "center" }}>

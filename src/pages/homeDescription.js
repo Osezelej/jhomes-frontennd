@@ -87,9 +87,7 @@ export default function Homedescription(){
                         
                     </div>
                 </div>
-                
-            </div>
-            <div className="fact-feature-container">
+                <div className="fact-feature-container">
                 <div className="feature-container">
                     <h2>Home Features</h2>
                     <div className="icon-textcontainer">
@@ -102,6 +100,8 @@ export default function Homedescription(){
                     </div>
                 </div>
         </div>
+            </div>
+            
         <div className="pagebody des-pagebody desktop">
             <div className="info-features-detail-comnponent">
             <div className="info-agent-container">

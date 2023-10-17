@@ -170,6 +170,17 @@
       flex-direction: column;
       padding: 10px 0px;
     }
+    .css-9l5vo-MuiCollapse-wrapperInner{
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .desc{
+      margin-top: 170px;
+      margin-bottom: 14px;
+    }
     .placeholder {
       color: gray;
       font-size: 15px;
@@ -208,6 +219,10 @@
     }
     .last-container {
       grid-column: 1;
+    }
+    .home-detail-container h2{
+      width: 90%;
+      
     }
   }
   

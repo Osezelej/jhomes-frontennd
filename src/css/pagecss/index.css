@@ -19,12 +19,11 @@ body{
     object-fit:cover;
 }
 .search-comp-container{
-    height: 350px;
-    width: 92.7%;
+    height: 370px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
     align-items: center;
     background-color:transparent;
     position: absolute;
@@ -368,5 +367,32 @@ body{
     }
     .search-comp-container{
         width: 100% ;
+    }
+    .postahome-button-container button{
+        width: 41%;
+        color: #A11BB7;
+        border-color: #A11BB7;
+        border-radius: 5px;
+        border-style: solid;
+        border-width: 1.5px;
+        background-color: #fff;
+        height: 50px;
+        margin-top: 10px;
+        font-size:large;
+        font-weight: 500;
+    }
+    .button-1-container button{
+        background-color: white;
+        margin-top: 10px;
+        width: 67% ;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-radius: 5px;
+        border-color: #A11BB7;
+        border-style: solid;
+        border-width: 1.5px;
+        cursor: pointer;
+    
     }
 }

@@ -24,7 +24,7 @@ export default function Navigation({isLogin, openModal}){
         {!isLogin ? <div className="login-user-icon-container" style={{cursor:"pointer", flexDirection:'column', justifyContent:'center', alignItems:'center'}} onClick={()=>{setOpenDown(prev=>!prev)}} >
           {!opendown && <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                 <LoginOutlined htmlColor="#A11BB7"  style={{fontSize:30}}/>
-                <h3 style={{color:"#A11BB7"}}>Login</h3>
+                <h3 className="small" style={{color:"#A11BB7"}}>Login</h3>
             </div>}  
             
             {opendown && <div style={{borderRadius:5}}>
@@ -90,7 +90,7 @@ export default function Navigation({isLogin, openModal}){
         {!isLogin ? <div className="login-user-icon-container" style={{cursor:"pointer", flexDirection:'column', justifyContent:'center', alignItems:'center'}} onClick={()=>{setOpenDown(prev=>!prev)}} >
           {!opendown && <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                 <LoginOutlined htmlColor="#A11BB7"  style={{fontSize:30}}/>
-                <h3 style={{color:"#A11BB7"}}>Login</h3>
+                <h3 className="small" style={{color:"#A11BB7"}}>Login</h3>
             </div>}  
             
             {opendown && <div style={{borderRadius:5}}>
@@ -126,7 +126,7 @@ export default function Navigation({isLogin, openModal}){
         </div>: <div className="login-user-icon-container" style={{cursor:'pointer', flexDirection:'column', alignItems:'center'}} onClick={()=>{setOpenDown(prev=>!prev)}}>
             <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                 <Person2Outlined htmlColor="#A11BB7"  style={{fontSize:30}}/>
-                <h3 style={{color:"#A11BB7"}}>User</h3>
+                <h3 className="small" style={{color:"#A11BB7"}}>User</h3>
             </div>
            
             {opendown && <div>

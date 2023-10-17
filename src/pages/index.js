@@ -59,7 +59,7 @@ export default function Landing(){
                         <button className="post" onClick={()=>{
                             navigate('/agent/login')
                         }}>
-                            Post A Home
+                            Post A Home 
                         </button>
                 </div>
             </div>
