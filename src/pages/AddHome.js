@@ -103,36 +103,73 @@ export default function AddHome() {
         return prev
       })
     }else if(e.target.name === 'bedroom'){
-      setHomeData((prev)=>{
-        prev.homeDescription.bedroom = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.bedroom = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of bedroom allowed, 10')
+      }
+      
     }else if(e.target.name === 'bathroom'){
-      setHomeData((prev)=>{
-        prev.homeDescription.bathroom = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.bathroom = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of bathroom allowed, 10')
+      }
+      
     }else if(e.target.name === 'toilet'){
-      setHomeData((prev)=>{
-        prev.homeDescription.toilet = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.toilet = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of toilet allowed, 10')
+      }
+      
     }else if(e.target.name === 'kitchen'){
-      setHomeData((prev)=>{
-        prev.homeDescription.kitchen = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.kitchen = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of kitchen allowed, 10')
+      }
+      
     }else if(e.target.name === 'sitting'){
-      setHomeData((prev)=>{
-        prev.homeDescription.sittingRoom = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.sittingRoom = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of sittingRoom allowed, 10')
+      }
     }else if(e.target.name === 'dinning'){
-      setHomeData((prev)=>{
-        prev.homeDescription.dinningRoom = e.target.value;
-        return prev
-      })
+      if (e.target.value <= 10){
+        setHomeData((prev)=>{
+          prev.homeDescription.dinningRoom = e.target.value;
+          return prev
+        })
+        setErrorAlert(false)
+      }else{
+        setErrorAlert('HOME ERROR- you have exceeded the maximum number of dinningRoom allowed, 10')
+      }
+      
     }else if(e.target.name === 'homeType'){
+      
       setHomeData((prev)=>{
         prev.homeDescription.homeType = e.target.value;
         return prev
@@ -314,6 +351,8 @@ export default function AddHome() {
                   className="input-tabs"
                   placeholder="Number of Bedrooms"
                   onChange={(e)=>{handleData(e)}}
+                  max={10}
+                  min={0}
                 />
               </div>
               <div className="input-container">
@@ -323,6 +362,7 @@ export default function AddHome() {
                   className="input-tabs"
                   placeholder="Number of Bathrooms"
                   onChange={(e)=>{handleData(e)}}
+                  max={10}
                 />
               </div>
               <div className="input-container">
@@ -494,7 +534,7 @@ export default function AddHome() {
                     setActivityIndicator4(true);
                     dispatch(registerhome(HomeData))
                     setTimeout(() => {
-                      navigate("/add/home/image");
+                      navigate("/addhome/image/Osezelej");
                       setActivityIndicator4(false);
                     }, 3000);
                     console.log(HomeData)

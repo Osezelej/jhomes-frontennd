@@ -30,10 +30,10 @@ function App() {
         <Route path="/agent/login" element={<AgentLogin/>}/>
 
         {/* register a home */}
-        <Route path="/add/home" element={<AddHome/>}/>
+        <Route path="/add/home/:agent" element={<AddHome/>}/>
 
         {/* add the images for the homes */}
-        <Route path="/add/home/image" element={<AddHomeImages/>}/>
+        <Route path="/addhome/image/:agent" element={<AddHomeImages/>}/>
 
         {/* this is the agent infor page after login */}
         <Route path="/agent/:agent" element={<Agent/>}/>

@@ -93,7 +93,7 @@ export default function Navigation({isLogin, openModal}){
                 <h3 className="small" style={{color:"#A11BB7"}}>Login</h3>
             </div>}  
             
-            {opendown && <div style={{borderRadius:5}}>
+            {opendown && <div style={{borderRadius:5, marginTop:50}}>
                 <div className="agent-user-Button-container">
                    <button style={{
                         display:'flex', 
@@ -104,6 +104,7 @@ export default function Navigation({isLogin, openModal}){
                         borderWidth:0,
                         borderRadius:5
                      }} onClick={()=>{
+                            setOpenDown(false)
                             navigate('/agent/login')
                      }}>
                         <h3 style={{color:"#A11BB7"}}>Login as agent</h3>
@@ -118,7 +119,10 @@ export default function Navigation({isLogin, openModal}){
                         padding:0,
                         borderWidth:0,
                         borderRadius:5
-                     }} onClick={()=>{setOpenDown((prev)=>!prev);openModal(true); }}>
+                     }} onClick={()=>{
+                        
+                        setOpenDown(false)
+                        setOpenDown((prev)=>!prev);openModal(true); }}>
                         <h3 style={{color:"#A11BB7"}}>Login as user </h3>
                    </button>
                 </div>

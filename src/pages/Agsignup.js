@@ -25,7 +25,7 @@ export default function Agsignup(){
     const [ErrorAlert, setErrorAlert] = useState(false);
     function sleepandNavigate(mills){
         setTimeout(()=>{
-            navigate('/add/home')
+            navigate(`/add/home/${signupData.username}`)
         }, mills)
     }
     const navigate = useNavigate();
