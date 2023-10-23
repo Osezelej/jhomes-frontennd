@@ -9,8 +9,12 @@ import {ClipLoader} from 'react-spinners';
 import ScreenModal from "../components/loginComp";
 import { BaseUrl } from "../config";
 import axios from 'axios';
+import { useDispatch, useSelector} from 'react-redux';
+import { registerUser, agenData } from "../store/user.js";
 
 export default function Agsignup(){
+    let agent = useSelector(agenData);
+    let dispatchAction = useDispatch();
     const [signupData, setSignupData] = useState({
         username:'',
         email:"",
@@ -68,6 +72,9 @@ export default function Agsignup(){
      })
        
     }
+    function registerData(data){
+        dispatchAction(registerAgent(data))
+    }
     // to handle SignupClick
     function handleSignUpClick(){
         if(!(signupData.email.includes('@') || signupData.email.includes('.com'))){
@@ -88,10 +95,17 @@ export default function Agsignup(){
         if(ErrorAlert){
             return ;
         }
+        let a = '';
         setActivityIndicator(true)
         registerAgent().then((value)=>{
-            console.log(value)
-            setShowmodal(true)
+            let data ={
+                username:value.data.username,
+                phonnumber:value.data.phoneNumber,
+                email:value.data.email,
+                id:value.data.id
+            }
+            registerData(data);
+            setShowmodal(true);
         })
         .catch((error)=>{
             console.log(error)

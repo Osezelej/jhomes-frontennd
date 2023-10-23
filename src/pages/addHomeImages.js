@@ -213,10 +213,11 @@ export default function AddHomeImages() {
     setUploaingIndicator("uploading home data please do not cancel.")
     await axios.post(BaseUrl + '/graphql',
     {
-      "query":`mutation createHome(createHomeDataInput:{
-                agentId:"${'agent.agentid'}",
+      query:`mutation {
+        createHome(createHomeDataInput:{
+                agentId:"agent.agentid",
                 homeAddress:{
-                    streeetName:"${val.addrInfo.streetName}",
+                    streetName:"${val.addrInfo.streetName}",
                     country:"${val.addrInfo.country}",
                     state:"${val.addrInfo.state}",
                     lga:"${val.addrInfo.lga}"
@@ -235,15 +236,28 @@ export default function AddHomeImages() {
                 homePrice:{
                   homePriceYear:"${val.price.priceYear}",
                   homePriceMonth:"${val.price.priceMonth}",
-                }
+                },
+                homeImage:${[
+                  ...homeImage.bathRoom.map((element)=>agent.agentid + element), 
+                  ...homeImage.bedRoom.map((element)=>agent.agentid + element), 
+                  ...homeImage.toilet.map((element)=>agent.agentid + element),
+                  ...homeImage.dinningRoom.map((element)=>agent.agentid + element),
+                  ...homeImage.kitchen.map((element)=>agent.agentid + element),
+                  ...homeImage.sittingRoom.map((element)=>agent.agentid + element)]}
               }){
                 id,
                 homeDesc{
                   id,
                   agentId
                 }
-              }`
+              }
+            }`
 
+    },
+    {
+      headers:{
+        'Content-Type':'application/json'
+      }
     }
     ).then((res)=>{
       console.log(res.data)
@@ -510,7 +524,7 @@ export default function AddHomeImages() {
                 />
               })}
             </div>
-
+df  
             <div className="home-form-container">
               {[...Array(imageData.kitchen).keys()].map((value, index) => {
                 return (
