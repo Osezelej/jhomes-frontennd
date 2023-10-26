@@ -169,7 +169,8 @@ export default function AddHomeImages() {
 
 
   //   prepare upload file
-  function prepareUploadImage() {
+  async  function prepareUploadImage() {
+    setUploaingIndicator("uploading home images.. please do not cancel.");
     let homeImageArray = Object.entries(homeImage);
     setUploadImageFiles(homeImageArray.map((val) => {
       if (val[0].length > 0) {
@@ -177,7 +178,6 @@ export default function AddHomeImages() {
         return val
       }
     }))
-
   }
 
   // upload image
@@ -190,69 +190,95 @@ export default function AddHomeImages() {
 
       }
     }
+    
 
     for (let value of formdata.entries()) {
       console.log(value[0], value[1])
     }
+    
 
-    let response = await fetch(BaseUrl + '/image/upload', {
+    let response = await fetch(BaseUrl + `/image/upload?agentid=${agent.agentid}`, {
       method: "POST",
       body: formdata
+      
     })
     if (response.ok) {
       console.log("success");
+      setUploadImageFiles([]);
+      setTimeout(()=>{
+        
+      setUploaingIndicator(false);
+      setSuccessDrawer(true)
+      }, 1000);
       // console.log(await response.json())
     } else {
       console.log('error')
+      console.log(await response.json())
     }
 
 
 
   }
   async function uploadHomeData() {
-    setUploaingIndicator("uploading home data please do not cancel.")
+    let home_image_names = [
+      ...homeImage.bedRoom.map((value)=>{
+        return agent.agentid + value.name
+      }),
+      ...homeImage.bathRoom.map((value)=>{
+        return agent.agentid  + value.name
+      }),
+      ...homeImage.dinningRoom.map((value)=>{
+        return agent.agentid  + value.name
+      }),
+      ...homeImage.kitchen.map((valu)=>{
+        return agent.agentid  + valu.name
+      }),
+      ...homeImage.sittingRoom.map((value)=>{
+        return agent.agentid  + value.name
+      }),
+      ...homeImage.toilet.map((value)=>{
+        return agent.agentid  + value.name
+      }),
+    ]
+    // console.log(home_image_names)
+    let outputData = {};
+    setUploaingIndicator("uploading home data please do not cancel.");
+
     await axios.post(BaseUrl + '/graphql',
     {
       query:`mutation {
-        createHome(createHomeDataInput:{
-                agentId:"agent.agentid",
-                homeAddress:{
-                    streetName:"${val.addrInfo.streetName}",
-                    country:"${val.addrInfo.country}",
-                    state:"${val.addrInfo.state}",
-                    lga:"${val.addrInfo.lga}"
-                },
-                homeDescription:{
-                  bedroom:${imageData.bedroom},
-                  bathroom:${imageData.bathroom},
-                  toilet:${imageData.toilet},
-                  dinningroom:${imageData.dining},
-                  sittingroom:${imageData.sittingroom},
-                  kitchen:${imageData.kitchen},
-                  homeType:"${val.homeDescription.homeType}",
-                  saleType:"${val.homeDescription.saleType}",
-                  others:"${val.homeDescription.others}",
-                },
-                homePrice:{
-                  homePriceYear:"${val.price.priceYear}",
-                  homePriceMonth:"${val.price.priceMonth}",
-                },
-                homeImage:${[
-                  ...homeImage.bathRoom.map((element)=>agent.agentid + element), 
-                  ...homeImage.bedRoom.map((element)=>agent.agentid + element), 
-                  ...homeImage.toilet.map((element)=>agent.agentid + element),
-                  ...homeImage.dinningRoom.map((element)=>agent.agentid + element),
-                  ...homeImage.kitchen.map((element)=>agent.agentid + element),
-                  ...homeImage.sittingRoom.map((element)=>agent.agentid + element)]}
-              }){
-                id,
-                homeDesc{
-                  id,
-                  agentId
-                }
-              }
-            }`
-
+  createHome(createHomeDataInput:{
+    agentId:"${agent.agentid}",
+    homeAddress:{
+      streetName:"${val.addrInfo.streetName}",
+      country:"${val.addrInfo.country}",
+      state:"${val.addrInfo.state}",
+      lga:"${val.addrInfo.lga}"
+    },
+    homeDescription:{
+      bedroom:${imageData.bedroom},
+      bathroom:${imageData.bathroom},
+      sittingroom:${imageData.sittingroom},
+      toilet:${imageData.toilet},
+      dinningroom:${imageData.dining},
+      kitchen:${imageData.kitchen},
+      homeType:"${val.homeDescription.homeType}",
+      saleType:"${val.homeDescription.saleType}",
+      others:"${val.homeDescription.others}",
+    },
+    homePrice:{
+      homePriceYear:"${val.price.priceYear}",
+      homePriceMonth:"${val.price.priceMonth}"
+    },
+    homeImage:"${home_image_names}"
+}){
+    id,
+    homeDesc{
+      id,
+      agentId
+    }
+  }
+      }`
     },
     {
       headers:{
@@ -260,14 +286,20 @@ export default function AddHomeImages() {
       }
     }
     ).then((res)=>{
-      console.log(res.data)
+      // console.log(res.data)
+      outputData = res.data;
+
     }).catch((e)=>{
-      console.log(e)
-    }).finally(()=>{
+      setAlertError(`UPLOAD ERROR-there is an error while trying to upload check your network and data and try to upload again`);
       setUploaingIndicator(false)
+    }).finally(()=>{
     })
 
+  return outputData
   }
+
+  
+
   useEffect(() => {
     if (toisamebath) {
       setslideup4(false);
@@ -322,7 +354,7 @@ export default function AddHomeImages() {
             display:"flex", 
             alignItems:'center' }}>
             <ClipLoader color="#A11BB7" size={30}/>
-            <p>{uploadingIndicator}</p>
+            <p style={{marginLeft:10}}>{uploadingIndicator}</p>
 
           </div>
     </Drawer>
@@ -524,7 +556,7 @@ export default function AddHomeImages() {
                 />
               })}
             </div>
-df  
+
             <div className="home-form-container">
               {[...Array(imageData.kitchen).keys()].map((value, index) => {
                 return (
@@ -860,8 +892,17 @@ df
                 onClick={() => {
                   //   console.log(homeImage);
                   if (homeImage.dinningRoom.length === imageData.dining) {
-                    uploadHomeData()
-                    // prepareUploadImage();
+                    try{
+                      uploadHomeData().then((value)=>{
+                      console.log(value)
+                      if(value){
+                        prepareUploadImage();
+                      }
+                    })
+                    }catch(e){
+
+                    }
+                    
                     return;
 
                   }
@@ -892,7 +933,7 @@ df
         open={succesDrawer}
         onClose={() => {
           setSuccessDrawer(false);
-          // navigate("/agent/osezelej");
+          navigate("/agent/" + agent.username);
         }}
       >
         <div style={{ padding: 20, display: "flex", alignItems: "center" }}>

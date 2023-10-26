@@ -10,7 +10,7 @@ import ScreenModal from "../components/loginComp";
 import { BaseUrl } from "../config";
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux';
-import { registerUser, agenData } from "../store/user.js";
+import { registerUserDataThunk, agenData } from "../store/user.js";
 
 export default function Agsignup(){
     let agent = useSelector(agenData);
@@ -63,7 +63,6 @@ export default function Agsignup(){
 
     // register user
     async function registerAgent(){
-        console.log(signupData)
      return await axios.post(BaseUrl + '/api/v1/user', {
         username: signupData.username.trim(),
         email: signupData.email.trim(),
@@ -73,7 +72,7 @@ export default function Agsignup(){
        
     }
     function registerData(data){
-        dispatchAction(registerAgent(data))
+        dispatchAction(registerUserDataThunk(signupData))
     }
     // to handle SignupClick
     function handleSignUpClick(){
@@ -95,7 +94,6 @@ export default function Agsignup(){
         if(ErrorAlert){
             return ;
         }
-        let a = '';
         setActivityIndicator(true)
         registerAgent().then((value)=>{
             let data ={
@@ -112,7 +110,6 @@ export default function Agsignup(){
             setErrorAlert('NETWORK ERROR-request failed')
         })
         .finally(()=>{
-            
             setTimeout(()=>{setActivityIndicator(false)}, 600)
         })
     
@@ -177,6 +174,9 @@ export default function Agsignup(){
         }
 
     }
+    useEffect(()=>{
+        console.log(agent)
+    }, [agent])
     useEffect(()=>{
         if(signupData.password.length > 0){
           handlePAssword()

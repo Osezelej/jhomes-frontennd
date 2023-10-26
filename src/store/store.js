@@ -7,6 +7,7 @@ const store = configureStore({
         homeDetails: homeDetail,
         agent:agentSlice,
     },
+
 })
 
 export default store
