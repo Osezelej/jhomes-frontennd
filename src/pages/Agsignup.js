@@ -71,7 +71,7 @@ export default function Agsignup(){
      })
        
     }
-    function registerData(data){
+    function registerData(){
         dispatchAction(registerUserDataThunk(signupData))
     }
     // to handle SignupClick
@@ -94,24 +94,7 @@ export default function Agsignup(){
         if(ErrorAlert){
             return ;
         }
-        setActivityIndicator(true)
-        registerAgent().then((value)=>{
-            let data ={
-                username:value.data.username,
-                phonnumber:value.data.phoneNumber,
-                email:value.data.email,
-                id:value.data.id
-            }
-            registerData(data);
-            setShowmodal(true);
-        })
-        .catch((error)=>{
-            console.log(error)
-            setErrorAlert('NETWORK ERROR-request failed')
-        })
-        .finally(()=>{
-            setTimeout(()=>{setActivityIndicator(false)}, 600)
-        })
+        registerData()
     
     }
     const capAlpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -175,6 +158,24 @@ export default function Agsignup(){
 
     }
     useEffect(()=>{
+        if (agent.isAuth){
+            let {error, isAuth, loading, ...AgentData} = agent;
+            // this is storing the agent id of the agent after signing up is successful.
+            sessionStorage.setItem(AgentData.agentid, JSON.stringify(AgentData));
+            setShowmodal(true);
+        }else{
+            setShowmodal(false);
+        }
+        if(agent.loading){
+            setActivityIndicator(true);
+        }else{
+            setActivityIndicator(false);
+        }
+        if (agent.error.length > 0){
+            setErrorAlert('SIGN UP ERROR - ' + agent.error)
+        }else{
+            setErrorAlert(false)
+        }
         console.log(agent)
     }, [agent])
     useEffect(()=>{
@@ -241,7 +242,7 @@ export default function Agsignup(){
                             setActivityIndicator(true)
                             sleepandNavigate(3000)
                         }}>
-                           {activityIndicator? <ClipLoader color="white" size={20}/>:<p>Add new home</p>} 
+                           {activityIndicator? <ClipLoader color="white" size={20}/>:<p style={{fontSize:13}}>Add new home</p>} 
                         </button>
                         
                     </div>

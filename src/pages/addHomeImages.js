@@ -863,7 +863,7 @@ export default function AddHomeImages() {
                 );
               })}
             </div>
-            <p className="agree">
+            <p className="agree"> 
               once you have clicked on submit that means you have agreed to our{" "}
               <span className="term-condition">terms & conditions</span>
             </p>
@@ -933,7 +933,7 @@ export default function AddHomeImages() {
         open={succesDrawer}
         onClose={() => {
           setSuccessDrawer(false);
-          navigate("/agent/" + agent.username);
+          // navigate("/agent/" + agent.username);
         }}
       >
         <div style={{ padding: 20, display: "flex", alignItems: "center" }}>

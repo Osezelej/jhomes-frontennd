@@ -9,12 +9,14 @@ const registerUserdata = async (signupData)=>{
                     username: signupData.username.trim(),
                     email: signupData.email.trim(),
                     phoneNumber: signupData.phonenumber.trim(),
-                    password: signupData.password
+                    password: signupData.password.trim()
                  }).then((res)=>{
                     data = res.data;
-                 }).catch((err)=>{
+                    console.log(res)
+                 }).catch((err)=>{   
                     throw new Error(err.response.data)
                  })
+                 console.log(data)
                  return data;
 }
 
@@ -55,7 +57,9 @@ const agentSlice = createSlice({
                               state.error = false;
                     });
                     builder.addCase(registerUserDataThunk.fulfilled, (state, action)=>{
+                     console.log(action)
                               state.agentid = action.payload.id;
+
                               state.email = action.payload.email;
                               state.phonenumber = action.payload.phoneNumber;
                               state.username = action.payload.username;
