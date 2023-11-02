@@ -161,7 +161,7 @@ export default function Agsignup(){
         if (agent.isAuth){
             let {error, isAuth, loading, ...AgentData} = agent;
             // this is storing the agent id of the agent after signing up is successful.
-            sessionStorage.setItem(AgentData.agentid, JSON.stringify(AgentData));
+            sessionStorage.setItem('jhmoesAgentid', JSON.stringify(AgentData));
             setShowmodal(true);
         }else{
             setShowmodal(false);
@@ -172,7 +172,7 @@ export default function Agsignup(){
             setActivityIndicator(false);
         }
         if (agent.error.length > 0){
-            setErrorAlert('SIGN UP ERROR - ' + agent.error)
+            setErrorAlert('SIGN UP ERROR - ' + 'user already exist.')
         }else{
             setErrorAlert(false)
         }

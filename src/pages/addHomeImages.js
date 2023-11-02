@@ -241,7 +241,7 @@ export default function AddHomeImages() {
       }),
     ]
     // console.log(home_image_names)
-    let outputData = {};
+    let outputData = false;
     setUploaingIndicator("uploading home data please do not cancel.");
 
     await axios.post(BaseUrl + '/graphql',
@@ -273,10 +273,7 @@ export default function AddHomeImages() {
     homeImage:"${home_image_names}"
 }){
     id,
-    homeDesc{
-      id,
-      agentId
-    }
+    agentId
   }
       }`
     },
@@ -286,16 +283,22 @@ export default function AddHomeImages() {
       }
     }
     ).then((res)=>{
-      // console.log(res.data)
+      console.log(res.data)
       outputData = res.data;
 
     }).catch((e)=>{
+      console.log(e)
       setAlertError(`UPLOAD ERROR-there is an error while trying to upload check your network and data and try to upload again`);
       setUploaingIndicator(false)
     }).finally(()=>{
     })
 
-  return outputData
+    if(outputData){
+      return outputData;
+    }
+    else{
+      throw new Error('there is an upload error uploading the data')
+    }
   }
 
   
@@ -900,7 +903,7 @@ export default function AddHomeImages() {
                       }
                     })
                     }catch(e){
-
+                      console.log(e)
                     }
                     
                     return;
@@ -933,7 +936,7 @@ export default function AddHomeImages() {
         open={succesDrawer}
         onClose={() => {
           setSuccessDrawer(false);
-          // navigate("/agent/" + agent.username);
+          navigate("/agent/" + agent.username);
         }}
       >
         <div style={{ padding: 20, display: "flex", alignItems: "center" }}>

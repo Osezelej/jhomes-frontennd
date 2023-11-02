@@ -79,6 +79,5 @@ const agentSlice = createSlice({
 let {registerUser} = agentSlice.actions;
 let agenData = state=>state.agent;
 
-
 export {registerUser, agenData, registerUserDataThunk}
 export default agentSlice.reducer;
