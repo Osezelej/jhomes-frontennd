@@ -17,12 +17,16 @@ import '../css/pagecss/index.css';
 import SearchIcon from '../assets/search.png';
 import {EmailRounded, PhoneRounded, WarningOutlined } from "@mui/icons-material";
 import BottomNavigation from "../components/bNavi";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import ScreenModal from "../components/loginComp";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../store/user";
+
 
 
 export default function Landing(){
+    const dispatch = useDispatch();
     const carouselImages = [Image1,Home1, Home2, Image2,Home3,Home4,  Image3, Home5,Home6, Image4,Home7, Image5, Home8];
     const styleButton = {
         backgroundColor:'#A11BB7',
@@ -33,8 +37,24 @@ export default function Landing(){
     const [bracket2, setBracket2 ] = useState(false);
     const [bracket3, setBracket3 ] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [agentData, setAgentData] = useState('');
+    useEffect(()=>{
+        setAgentData(sessionStorage.getItem('jhmoesAgentid'));
+        if (agentData){
+           let data = JSON.parse(agentData);
+           dispatch(registerUser({
+            username:data.username,
+            id:data.agentid,
+            phonenumber: data.phonenumber,
+            email:data.email,
+            loading:false,
+            isAuth:true,
+        }))
+           
+        }
+    })
     return <main>
-        <Navigation isLogin={false} openModal={setOpenModal}/>
+        <Navigation isLogin={(typeof agentData == 'string' && agentData.length > 0) ? true : false} openModal={setOpenModal}/>
         <ScreenModal open={openModal} onClose={()=>setOpenModal(prev=>!prev)} />
      
         <div className="pagebody">
@@ -65,7 +85,7 @@ export default function Landing(){
             </div>
             <div className="contact-us-container" >
                 <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
-                    <h2 style={{fontSize:35, marginTop:20}}>About us</h2>
+                    <h2 style={{fontSize:27, marginTop:20}}>About us</h2>
                     <div className="content-container" >
                     <p style={{textAlign:'justify', marginLeft:0}}><span style={{color:'#9317a7', fontWeight:'700', fontStyle:'italic'}}>Jhomes</span> is a Platform where Home Agent(realtors) and Home Owners advertise their beautiful home for Sale or for Lease Fast and easy!, <b><em>Jhomes</em></b> connects buyer and renters to Agent or Home Owners. </p>
                     </div>

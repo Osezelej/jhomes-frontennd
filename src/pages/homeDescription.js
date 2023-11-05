@@ -14,6 +14,8 @@ import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import ScreenModal from "../components/loginComp";
 import Carousel from "react-material-ui-carousel";
+import { useSelector } from "react-redux";
+import { agenData } from "../store/user";
 
 export default function Homedescription(){
     const featureData = [
@@ -51,8 +53,9 @@ export default function Homedescription(){
     const carouselImages = [Home1, Home2,Home3,Home4,Home5,Home6,Home7,Home8];
     const [activityIndicator, setActivityIndicator] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const agent = useSelector(agenData);
     return <main style={{overflow:'hidden'}}>
-        <Navigation isLogin={false} openModal={setOpenModal}/>
+        <Navigation isLogin={agent.isAuth} openModal={setOpenModal}/>
         
         <ScreenModal open={openModal} onClose={()=>setOpenModal(prev=>!prev)} />
         <div className="pagebody des-pagebody mobile">

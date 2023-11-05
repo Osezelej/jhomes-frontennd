@@ -7,10 +7,11 @@ import { ClipLoader } from "react-spinners";
 import Naijastates from "naija-state-local-government";
 import {useSelector, useDispatch} from 'react-redux';
 import { registerhome } from "../store/signuphome";
+import { agenData } from "../store/user";
 
 
 export default function AddHome() {
-  
+  const agent = useSelector(agenData);
   const dispatch = useDispatch()
   const [displaydata, setDisplayData] = useState([
     {
@@ -534,7 +535,7 @@ export default function AddHome() {
                     setActivityIndicator4(true);
                     dispatch(registerhome(HomeData))
                     setTimeout(() => {
-                      navigate("/addhome/image/Osezelej");
+                      navigate("/addhome/image/" + agent.username);
                       setActivityIndicator4(false);
                     }, 3000);
                     console.log(HomeData)

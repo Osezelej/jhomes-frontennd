@@ -158,6 +158,7 @@ export default function Agsignup(){
 
     }
     useEffect(()=>{
+        
         if (agent.isAuth){
             let {error, isAuth, loading, ...AgentData} = agent;
             // this is storing the agent id of the agent after signing up is successful.
@@ -176,7 +177,7 @@ export default function Agsignup(){
         }else{
             setErrorAlert(false)
         }
-        console.log(agent)
+        console.log(sessionStorage.getItem('jhmoesAgentid'));
     }, [agent])
     useEffect(()=>{
         if(signupData.password.length > 0){

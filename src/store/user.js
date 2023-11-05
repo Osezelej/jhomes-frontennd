@@ -2,6 +2,27 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BaseUrl } from "../config";
 
+const loginUserData = async (loginData)=>{
+   let data = {}
+   await axios.post(BaseUrl + '/api/v1/user/login', {
+      phoneNumber:loginData.phoneNumber.trim(),
+      password:loginData.password.trim()
+   }).then((res)=>{
+      data = res.data;
+   }).catch((err)=>{
+      throw new Error('user not found')
+   })
+   console.log(data)
+   return data;
+}
+const loginuser = createAsyncThunk('usetr/loginuser', async(data, thunkApi)=>{
+   try {
+      return loginUserData(data)
+   } catch (error) {
+      thunkApi.rejectWithValue(error)
+   }
+})
+
 const registerUserdata = async (signupData)=>{
           let data = {};
 
@@ -48,6 +69,8 @@ const agentSlice = createSlice({
                               state.agentid = action.payload.id;
                               state.phonenumber =action.payload.phonenumber;
                               state.email = action.payload.email;
+                              state.isAuth = action.payload.isAuth;
+                              state.loading = action.payload.loading;
                     },
           },
           extraReducers:(builder)=>{
@@ -73,11 +96,38 @@ const agentSlice = createSlice({
                               state.loading = false;
                               state.error = action.error.message;
                     });
+                    builder.addCase(loginuser.pending, (state, action)=>{
+                     state.loading = true;
+                     state.isAuth = false;
+                     state.error = '';
+                     state.agentid='';
+                     state.email = '';
+                     state.phonenumber = '';
+                     state.username = '';
+                    })
+                    builder.addCase(loginuser.fulfilled, (state, action)=>{
+                     state.loading = false;
+                     state.isAuth = true;
+                     state.error = '';
+                     state.agentid= action.payload.id;
+                     state.email = action.payload.email;
+                     state.phonenumber = action.payload.phoneNumber;
+                     state.username = action.payload.username;
+                    })
+                    builder.addCase(loginuser.rejected, (state, action)=>{
+                     state.loading = false;
+                     state.isAuth = false;
+                     state.error = 'error';
+                     state.agentid='';
+                     state.email = '';
+                     state.phonenumber = '';
+                     state.username = '';
+                    })
           }
 })
 
 let {registerUser} = agentSlice.actions;
 let agenData = state=>state.agent;
 
-export {registerUser, agenData, registerUserDataThunk}
+export {registerUser, agenData, registerUserDataThunk, loginuser}
 export default agentSlice.reducer;

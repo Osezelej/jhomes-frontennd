@@ -10,9 +10,11 @@ import Home7 from '../assets/home7.jpg';
 import Home8 from '../assets/home8.jpg';
 import ItemComp from "../components/ItemComp";
 import {ClipLoader} from 'react-spinners';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AddAPhotoRounded, Edit } from "@mui/icons-material";
+import { agenData } from "../store/user";
+import { useSelector } from "react-redux";
 
 export default function Agent(){
     const data = [1,2,3,4,5];
@@ -54,6 +56,12 @@ export default function Agent(){
             console.log(e)
         }
     }
+    const agent = useSelector(agenData);
+    useEffect(()=>{
+        if (!agent.isAuth){
+            navigate('/agent/login')
+        }
+    }, [])
     return <main className="post-main">
         <Navigation isLogin={true}/>   
         <div className="agent-mainpage">
@@ -74,18 +82,18 @@ export default function Agent(){
                 <div className="profile-data-container">
                     <div className="name-container">
                         <h4>Name:</h4>
-                        <p>Anubahimendo Osezele Joseph</p>
+                        <p>{agent.username}</p>
                     </div>
                     <div className="name-container">
                         <h4>Email:</h4>
-                        <p>2osezelejoseph@gmail.com</p>
+                        <p>{agent.email}</p>
                     </div>
                     <div className="name-container">
                         <h4>Phone number:</h4>
-                        <p>(+234)08076320300</p>
+                        <p>(+234){agent.phonenumber}</p>
                     </div>
                     <div className="agent-container">
-                        <button className="contact-agent-button" disabled={activityIndicator} onClick={()=>{setActivityIndicator(true);setTimeout(()=>navigate('/add/home'), 3000)}}>
+                        <button className="contact-agent-button" disabled={activityIndicator} onClick={()=>{setActivityIndicator(true);setTimeout(()=>navigate('/add/home/' + agent.username), 3000)}}>
                             {activityIndicator? <ClipLoader size={20} color="white"/>:<p>Add new home</p>}
                         </button>
                     </div>

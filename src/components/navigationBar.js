@@ -3,8 +3,12 @@ import '../css/compcss/naviBar.css';
 import { Close, LoginOutlined, LogoutOutlined, Menu, Person2Outlined} from "@mui/icons-material";
 import { useState } from "react";
 import { Drawer } from "@mui/material";
+import { useSelector } from "react-redux";
+import { agenData } from "../store/user";
 // import Logo from '../assets/jhomesLogo.png'
 export default function Navigation({isLogin, openModal}){
+    const agent = useSelector(agenData)
+
     const routes = [{text:'Home', link:'/'}, {text:'Search a home', link:'/search'}, {text:'Post a home', link:'/agent/login'}]
     const [opendown, setOpenDown] = useState(false);
     const [openDrawerw, setOpenDrawerw] = useState(false);
@@ -60,13 +64,12 @@ export default function Navigation({isLogin, openModal}){
         </div>: <div className="login-user-icon-container" style={{cursor:'pointer', flexDirection:'column', alignItems:'center'}} onClick={()=>{setOpenDown(prev=>!prev)}}>
             <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                 <Person2Outlined htmlColor="#A11BB7"  style={{fontSize:30}}/>
-                <h3 style={{color:"#A11BB7"}}>User</h3>
+                <h3 style={{color:"#A11BB7"}}>{agent.username}</h3>
             </div>
            
-            {opendown && <div>
-                <div className="agent-user-name-container" >
-                    <p>Osezele J</p>
-                </div>
+            {opendown && <div style={{
+                position:'absolute'
+            }}>
                 <div className="agent-user-Button-container">
                    <button style={{
                         display:'flex', 
@@ -130,13 +133,10 @@ export default function Navigation({isLogin, openModal}){
         </div>: <div className="login-user-icon-container" style={{cursor:'pointer', flexDirection:'column', alignItems:'center'}} onClick={()=>{setOpenDown(prev=>!prev)}}>
             <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                 <Person2Outlined htmlColor="#A11BB7"  style={{fontSize:30}}/>
-                <h3 className="small" style={{color:"#A11BB7"}}>User</h3>
+                <h3 className="small" style={{color:"#A11BB7"}}>{agent.username}</h3>
             </div>
            
-            {opendown && <div>
-                <div className="agent-user-name-container" >
-                    <p>Osezele J</p>
-                </div>
+            {opendown && <div style={{position:'absolute'}}>
                 <div className="agent-user-Button-container">
                    <button style={{
                         display:'flex', 
