@@ -3,9 +3,12 @@ import '../css/compcss/itemcomp.css';
 import Carousel from 'react-material-ui-carousel';
 import { DeleteRounded, FavoriteBorderOutlined,FavoriteRounded } from '@mui/icons-material';
 import { useState } from 'react';
+import { BaseUrl } from '../config';
 
-export default function ItemComp({images, from}){
+export default function ItemComp({homeDetails, from}){
+    console.log(homeDetails)
     const [FavHome, setFavHome] = useState(false);
+    const images = homeDetails.homeImage[0].split(',');
     const navigate = useNavigate()
     /*
     i will need the images, price, 
@@ -21,7 +24,7 @@ export default function ItemComp({images, from}){
         <Carousel duration={1000} indicators={false} >
                 {images.map((image, id)=>{
                     return <div className=" image-container" key={id}>
-                        <img alt="carousel" src={image} />
+                        <img alt="carousel" src={BaseUrl + '/' + image} />
                     </div>
                 })}
             </Carousel>
@@ -43,7 +46,7 @@ export default function ItemComp({images, from}){
                     <p>21, Ogunyomi Street, Oworoshoki, Kosofe, Lagos, Nigeria.</p>
                 </div>
                 <div className="next-container" style={from === 'description'? {flexDirection:'row', alignItems:'center', justifyContent:'space-between'}:{}}>
-                    {from === 'description'  && <p  style={{color:'#A11BB7'}}>staging...</p>}
+                    {from === 'description'  && <p className='staging'  style={{color:'#A11BB7'}}>staging...</p>}
                     <p>-&gt;</p>
                 </div>
             </div>

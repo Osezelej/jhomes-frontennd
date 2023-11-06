@@ -15,15 +15,68 @@ import { useNavigate } from "react-router-dom";
 import { AddAPhotoRounded, Edit } from "@mui/icons-material";
 import { agenData } from "../store/user";
 import { useSelector } from "react-redux";
+import { BaseUrl } from "../config";
+import  axios from 'axios';
 
 export default function Agent(){
+    
+    const agent = useSelector(agenData);
     const data = [1,2,3,4,5];
     const demoImage = [Home1, Home2, Home3, Home4, Home5,Home6, Home7, Home8];
     const [activityIndicator, setActivityIndicator] = useState(false);
     const [profileImage, setProfileImage] = useState(false);
     const navigate = useNavigate();
+    const [agentDatas, setAgentdatas] = useState([]);
+    const [numberOfRequest, setNumberOfRequest] = useState(1)
+    const [loading, setLoading] = useState(false)
+    async function getAgentHomeData(){
+        setLoading(true)
+        await axios.post(BaseUrl + '/graphql', {
+            query:`query{
+                findAllAgentHomes(agentid: "${agent.agentid}" skip:${numberOfRequest}){
+                    id,
+                    agentId,
+                    homeDesc{
+                        bedroom,
+                        bathroom,
+                        sittingroom,
+                        toilet,
+                        dinningroom,
+                        kitchen,
+                        homeType,
+                        saleType,
+                        others
+                    },
+                    homeAddress{
+                        streetName,
+                        country,
+                        state,
+                        lga
+                    },
+                    homePrice{
+                        homePriceYear,
+                        homePriceMonth,
+                    },
+                    homeImage
+                }
+            }`
+        }).then((res)=>{
+            let agentHomeData = res.data.data.findAllAgentHomes;
+            console.log(agentHomeData)
+            setAgentdatas(prev=>[...prev, ...agentHomeData]);
+            setNumberOfRequest(prev=>prev + 1)
+            setAgentdatas()
+        }).catch((err)=>{
+            let error = 'sorry there was an error when trying to get your data, you should check yur data.';
+            console.log(error);
+        }).finally(()=>{
+            setTimeout(()=>{
+                setLoading(false);
+            }, 1000)
+        })
 
-
+    }
+    
     async function getProfilePics(){
         
         try{
@@ -56,10 +109,11 @@ export default function Agent(){
             console.log(e)
         }
     }
-    const agent = useSelector(agenData);
     useEffect(()=>{
         if (!agent.isAuth){
             navigate('/agent/login')
+        }else{
+            getAgentHomeData()
         }
     }, [])
     return <main className="post-main">
@@ -69,7 +123,7 @@ export default function Agent(){
                 <div className="profile-image-container">
                     <div className="pimage-container">
                         {!profileImage  && <div className="change-profile-icon" style={{cursor:'pointer'}}
-                        onClick={()=>{
+                        onClick={()=>{ 
                             getProfilePics();
                         }}
                         >
@@ -104,9 +158,10 @@ export default function Agent(){
             </div>
             <div className="posts-container">
                 {/* gotten from the search page */}
+                {loading? <ClipLoader size={20} color="#9317a7"/>:
                 <div className="itemsd-container">
-                    {data.map((value, index)=><div key={index} className="pace-item-comp-container" style={index === 0?{backgroundColor:'white'} :index % 2 === 1?{backgroundColor:'#e27df238'}:{backgroundColor:'white'}}><ItemComp images={demoImage} from={'description'}/></div>)}
-                </div>
+                    {agentDatas.map((value, index)=><div key={index} className="pace-item-comp-container" style={index === 0?{backgroundColor:'white'} :index % 2 === 1?{backgroundColor:'#e27df238'}:{backgroundColor:'white'}}><ItemComp homeDetails={value} from={'description'}/></div>)}
+                </div>}
             </div>
         </div>
     </main>

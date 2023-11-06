@@ -52,12 +52,14 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    
 
 }
 .next-container p{
     font-size: x-large;
     margin: 0px;
     font-weight: bold;
+    padding-right: 10px;
 }
 .itemcomp-detail-container:hover{
     background-color: #e27df260;
@@ -74,7 +76,7 @@
 @media only screen and (max-width: 500px) {
     .item-container{
         display: flex;
-        width: 100%;
+        width: 96%;
         padding: 5px;
         flex-direction: column;
         height: 100%;
@@ -94,6 +96,11 @@
         height: 30%;
         margin-left: 0;
         padding: 0;
+    }
+    .next-container .staging{
+        font-size: 15px;
+        margin: 0px;
+        font-weight: bold;
     }
     
 
