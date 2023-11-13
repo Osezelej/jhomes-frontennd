@@ -9,12 +9,16 @@ export default function ItemComp({homeDetails, from}){
     console.log(homeDetails)
     const [FavHome, setFavHome] = useState(false);
     const images = homeDetails.homeImage[0].split(',');
-    const navigate = useNavigate()
-    /*
-    i will need the images, price, 
-    house-features, address of the  home, 
-    and home id
-    */
+    const navigate = useNavigate();
+    let mthPrice = parseInt(homeDetails.homePrice.homePriceMonth);
+    let yrPrice = parseInt(homeDetails.homePrice.homePriceYear)
+    let currFormat = new Intl.NumberFormat('en-US', {
+        style:'currency',
+        currency:'NGN'
+    })
+    let formattedMthPrice = currFormat.format(mthPrice);
+    let formattedYrPrice = currFormat.format(yrPrice) 
+
     return <div className="item-container">
         <div className="car-image-container" onDoubleClick={()=>{setFavHome((prev)=>!prev)}} >
            {from !== 'description' && <div className='fav-icon-container'>
@@ -29,21 +33,21 @@ export default function ItemComp({homeDetails, from}){
                 })}
             </Carousel>
         </div>
-        <div className="itemcomp-detail-container" onClick={()=>{navigate('/description/1')}}>
+        <div className="itemcomp-detail-container" onClick={()=>{navigate('/description/' + homeDetails.id + '?agentid=' + homeDetails.agentId)}}>
             <div className="price-description-container">
                 <div className="price-container">
-                    <h2>$50,000</h2>
+                    <h4>{formattedYrPrice} <span style={{fontSizeL:3}}>/ yr</span></h4>
                     {from === 'description'  && <DeleteRounded htmlColor='#A11BB7'/>}
                 </div>
                 <div className="description-container">
-                    <p className='bold'>3bd | 3ba | 3toi | 4sit</p>
-                    <p> - House for sale</p>
+                    <p className='bold'>{homeDetails.homeDesc.bedroom}bd | {homeDetails.homeDesc.bathroom}ba | {homeDetails.homeDesc.toilet}toi | {homeDetails.homeDesc.sittingroom}sit</p>
+                    <p> - House for {homeDetails.homeDesc.saleType}</p>
                 </div>
 
             </div>
             <div className="address-next-container">
                 <div className="address-container">
-                    <p>21, Ogunyomi Street, Oworoshoki, Kosofe, Lagos, Nigeria.</p>
+                    <p>{homeDetails.homeAddress.streetName}, {homeDetails.homeAddress.lga}, {homeDetails.homeAddress.state}.</p>
                 </div>
                 <div className="next-container" style={from === 'description'? {flexDirection:'row', alignItems:'center', justifyContent:'space-between'}:{}}>
                     {from === 'description'  && <p className='staging'  style={{color:'#A11BB7'}}>staging...</p>}

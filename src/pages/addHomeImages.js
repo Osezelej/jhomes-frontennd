@@ -222,22 +222,22 @@ export default function AddHomeImages() {
   async function uploadHomeData() {
     let home_image_names = [
       ...homeImage.bedRoom.map((value)=>{
-        return agent.agentid + value.name
+        return agent.agentid +  '_' + value.name
       }),
       ...homeImage.bathRoom.map((value)=>{
-        return agent.agentid  + value.name
+        return agent.agentid  + '_' + value.name
       }),
       ...homeImage.dinningRoom.map((value)=>{
-        return agent.agentid  + value.name
+        return agent.agentid  + '_' + value.name
       }),
       ...homeImage.kitchen.map((valu)=>{
-        return agent.agentid  + valu.name
+        return agent.agentid  + '_' + valu.name
       }),
       ...homeImage.sittingRoom.map((value)=>{
-        return agent.agentid  + value.name
+        return agent.agentid  + "_" + value.name
       }),
       ...homeImage.toilet.map((value)=>{
-        return agent.agentid  + value.name
+        return agent.agentid  + '_' +  value.name
       }),
     ]
     // console.log(home_image_names)

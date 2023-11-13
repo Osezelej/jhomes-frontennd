@@ -12,7 +12,7 @@ import ItemComp from "../components/ItemComp";
 import {ClipLoader} from 'react-spinners';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AddAPhotoRounded, Edit } from "@mui/icons-material";
+import { AddAPhotoRounded, ContactSupportOutlined, Edit } from "@mui/icons-material";
 import { agenData } from "../store/user";
 import { useSelector } from "react-redux";
 import { BaseUrl } from "../config";
@@ -63,9 +63,12 @@ export default function Agent(){
         }).then((res)=>{
             let agentHomeData = res.data.data.findAllAgentHomes;
             console.log(agentHomeData)
-            setAgentdatas(prev=>[...prev, ...agentHomeData]);
+            setAgentdatas((prev)=>{
+                console.log(prev);
+                let data = [...prev, ...agentHomeData];
+                return  data;
+            })
             setNumberOfRequest(prev=>prev + 1)
-            setAgentdatas()
         }).catch((err)=>{
             let error = 'sorry there was an error when trying to get your data, you should check yur data.';
             console.log(error);
@@ -116,6 +119,9 @@ export default function Agent(){
             getAgentHomeData()
         }
     }, [])
+    useEffect(()=>{
+        console.log(agentDatas)
+    }, [agentDatas])
     return <main className="post-main">
         <Navigation isLogin={true}/>   
         <div className="agent-mainpage">
@@ -158,9 +164,16 @@ export default function Agent(){
             </div>
             <div className="posts-container">
                 {/* gotten from the search page */}
-                {loading? <ClipLoader size={20} color="#9317a7"/>:
+                {loading ? <ClipLoader size={20} color="#9317a7"/>:
                 <div className="itemsd-container">
-                    {agentDatas.map((value, index)=><div key={index} className="pace-item-comp-container" style={index === 0?{backgroundColor:'white'} :index % 2 === 1?{backgroundColor:'#e27df238'}:{backgroundColor:'white'}}><ItemComp homeDetails={value} from={'description'}/></div>)}
+                    {agentDatas.map((value, index)=><div 
+                    key={index} 
+                    className="pace-item-comp-container" 
+                    style={index === 0?{backgroundColor:'white'} 
+                        :index % 2 === 1?{backgroundColor:'#e27df238'}
+                        :{backgroundColor:'white'}}>
+                            <ItemComp homeDetails={value} from={'description'}/>
+                        </div>)}
                 </div>}
             </div>
         </div>
