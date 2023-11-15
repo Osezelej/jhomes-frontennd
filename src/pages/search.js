@@ -11,8 +11,14 @@ import Home7 from '../assets/home7.jpg';
 import Home8 from '../assets/home8.jpg';
 import ItemComp from "../components/ItemComp";
 import BottomNavigation from "../components/bNavi";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getLocationData } from "../store/addr";
 
 export default function Search(){
+    const locationState = useSelector((state)=>state.location);
+    const dispatch = useDispatch();
+
     const filterData = [
         {
             title:"Sale Type",
@@ -42,12 +48,37 @@ export default function Search(){
     const demoImage = [Home1, Home2, Home3, Home4, Home5,Home6, Home7, Home8
     ]
     const data = [1,2,3,4,5]
+
+    useEffect(()=>{
+        if(typeof  locationState.lat != 'string' ){
+            console.log(locationState)
+            dispatch(getLocationData({lat:locationState.lat, lng:locationState.lng}))
+            if(locationState.success){
+                // send a request with the state posted and location to search api endpoint
+            }
+            if(locationState.error){
+                //send a request without the state and the location
+            }
+        }else{
+            // send a request without the state and the location
+        }
+    }, [locationState]);
+    
+
     return <main>
         <SearchNavi filterData={filterData}/>
         
         <div className="pagebody search-main">
             <div className="items-container">
-                {data.map((value, index)=><div key={index} className="pace-item-comp-container" style={index === 0?{backgroundColor:'white'} :index % 2 === 1?{backgroundColor:'#e27df238'}:{backgroundColor:'white'}}><ItemComp images={demoImage}/></div>)}
+                {data.map((value, index)=><div 
+                key={index} 
+                className="pace-item-comp-container" 
+                style={index === 0?{backgroundColor:'white'} 
+                :index % 2 === 1?{backgroundColor:'#e27df238'}
+                :{backgroundColor:'white'}}
+                >
+                    {/* <ItemComp images={demoImage}/> */}
+                </div>)}
             </div>
         </div>
         <BottomNavigation/>

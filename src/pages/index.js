@@ -22,7 +22,8 @@ import { redirect, useNavigate } from "react-router-dom";
 import ScreenModal from "../components/loginComp";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/user";
-
+import { registerLocation } from "../store/location";
+import { Alert } from "@mui/material";
 
 
 export default function Landing(){
@@ -38,7 +39,23 @@ export default function Landing(){
     const [bracket3, setBracket3 ] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [agentData, setAgentData] = useState('');
+    const [errorAlert , setErrorAlert] = useState(false);
+    
     useEffect(()=>{
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition((pos)=>{
+                const {latitude, longitude} = pos.coords;
+                console.log({latitude, longitude})
+                dispatch(registerLocation({lat:latitude, lng:longitude}));
+
+            }, 
+            (error)=>{
+                setErrorAlert('LOCATION ERROR - an error occured while trying to get your location data.');
+            }
+            )
+        }else{
+            setErrorAlert('BROWSER ERROR - your browser does not support geolocation, change your browser for better expreience');
+        }
         setAgentData(sessionStorage.getItem('jhmoesAgentid'));
         if (agentData){
            let data = JSON.parse(agentData);
@@ -52,11 +69,13 @@ export default function Landing(){
         }))
            
         }
-    })
+    }, [agentData])
+
+    
     return <main>
         <Navigation isLogin={(typeof agentData == 'string' && agentData.length > 0) ? true : false} openModal={setOpenModal}/>
         <ScreenModal open={openModal} onClose={()=>setOpenModal(prev=>!prev)} />
-     
+        {errorAlert && <Alert severity='error' onClose={()=>{setErrorAlert(false)}}>{errorAlert}</Alert>}
         <div className="pagebody">
             <div className="carousel-input-container">
                 <CarouselContainer images={carouselImages} />
