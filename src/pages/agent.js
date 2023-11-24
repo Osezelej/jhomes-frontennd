@@ -28,13 +28,16 @@ export default function Agent(){
     const navigate = useNavigate();
     const [agentDatas, setAgentdatas] = useState([]);
     const [numberOfRequest, setNumberOfRequest] = useState(1)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [count, setCount] = useState(0);
     async function getAgentHomeData(){
         setLoading(true)
         await axios.post(BaseUrl + '/graphql', {
             query:`query{
                 findAllAgentHomes(agentid: "${agent.agentid}" skip:${numberOfRequest}){
-                    id,
+                    count,
+                    homeData{
+                        id,
                     agentId,
                     homeDesc{
                         bedroom,
@@ -58,6 +61,8 @@ export default function Agent(){
                         homePriceMonth,
                     },
                     homeImage
+                    }
+                    
                 }
             }`
         }).then((res)=>{
@@ -65,9 +70,10 @@ export default function Agent(){
             console.log(agentHomeData)
             setAgentdatas((prev)=>{
                 console.log(prev);
-                let data = [...prev, ...agentHomeData];
+                let data = [...prev, ...agentHomeData.homeData];
                 return  data;
             })
+            setCount(agentHomeData.count)
             setNumberOfRequest(prev=>prev + 1)
         }).catch((err)=>{
             let error = 'sorry there was an error when trying to get your data, you should check yur data.';

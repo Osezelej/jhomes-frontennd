@@ -14,10 +14,20 @@ import BottomNavigation from "../components/bNavi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getLocationData } from "../store/addr";
+import { useState } from "react";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
 export default function Search(){
     const locationState = useSelector((state)=>state.location);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
+
+    const [count, setCount] = useState(34);
+    const [bottomnavifb, setBottomnavifb] =useState({
+        forward:false,
+        forwardClicked:false,
+        backward: true,
+        backwardClicked:false
+    });
 
     const filterData = [
         {
@@ -44,10 +54,18 @@ export default function Search(){
             title:"Sitting Room",
             options:["Any", "1", "2", "3", "4", "more"]
         }
-    ]
+    ];
     const demoImage = [Home1, Home2, Home3, Home4, Home5,Home6, Home7, Home8
     ]
+    
     const data = [1,2,3,4,5]
+    
+    // to get the botttom  content navigtion 
+    const [countData, setCountData] =useState( Array(Math.ceil(count/10)).fill(0).map((_, index)=>{
+     let data =   index == 0 ? {num:index + 1, active:true}:{num:index + 1, active:false};
+     return data;
+    }));
+
 
     useEffect(()=>{
         if(typeof  locationState.lat != 'string' ){
@@ -80,6 +98,117 @@ export default function Search(){
                     {/* <ItemComp images={demoImage}/> */}
                 </div>)}
             </div>
+            {count > 10 && <div className="bottom-content-container" style={{
+                display:'flex', 
+                gap:5,
+                justifyContent:'center',
+                alignItems:'center'
+                }}  >
+                {bottomnavifb.forward && (bottomnavifb.backwardClicked ? <p 
+               
+                >
+<ArrowBackIos 
+                style={{fontSize:20}}
+                color="#A11BB7"
+                />
+                </p> : <p 
+                >
+<ArrowBackIos 
+                style={{fontSize:20}}
+                color="#666666"
+                />
+                </p> ) }
+
+
+                {countData.map((value)=>{
+                    if(value.active){
+                        return <p style={{
+                            color:"#A11BB7", 
+                            margin:7, 
+                            fontWeight:'bolder',
+                            }}
+                            onClick={(e)=>{
+                                if(parseInt(e.target.innerText) > 1){
+                                    setBottomnavifb((prev)=>{
+                                        return {...prev, forward:true}
+                                    })
+                                }else{
+                                    setBottomnavifb((prev)=>{
+                                        return {...prev, forward:false}
+                                    })
+                                }
+                                if (e.target.innerText == countData.length){
+                                    setBottomnavifb((prev)=>{
+                                        return {...prev, backward:false}
+                                    })
+                                }else{
+                                    setBottomnavifb((prev)=>{
+                                        return {...prev, backward:true}
+                                    })
+                                }
+                                setCountData((prev)=>{
+                                    return prev.map((value)=>{
+                                        if (value.num == e.target.innerText){
+                                            return {...value, active:true}
+                                        }else{
+                                            return {...value, active:false}
+                                        }
+                                    })
+                                })
+                            }}>{value.num}</p>
+                    }
+                    return <p style={{
+                        margin:7, 
+                        fontWeight:'bolder',
+                        }}
+                        onClick={(e)=>{
+                            if(parseInt(e.target.innerText) > 1){
+                                setBottomnavifb((prev)=>{
+                                    return {...prev, forward:true}
+                                })
+                            }else{
+                                setBottomnavifb((prev)=>{
+                                    return {...prev, forward:false}
+                                })
+                            }
+                            if (e.target.innerText == countData.length){
+                                setBottomnavifb((prev)=>{
+                                        return {...prev, backward:false}
+                                    })
+                            }else{
+                                setBottomnavifb((prev)=>{
+                                        return {...prev, backward:true}
+                                    })
+                            }
+
+                            setCountData((prev)=>{
+                                return prev.map((value)=>{
+                                    if (value.num == e.target.innerText){
+                                        return {...value, active:true}
+                                    }else{
+                                        return {...value, active:false}
+                                    }
+                                })
+                            })
+                        }}>{value.num}</p>
+                })}
+
+
+                {bottomnavifb.backward && (bottomnavifb.forwardClicked ? <p 
+                    onClick={(e)=>{}}
+                >
+                <ArrowForwardIos 
+                    style={{fontSize:20}}
+                    color="#A11BB7"
+                    />
+                </p> : <p 
+                >
+<ArrowForwardIos
+                style={{fontSize:20}}
+                color="#666666"
+                />
+                </p> ) }          
+            </div>}
         </div>
         <BottomNavigation/>
     </main>
