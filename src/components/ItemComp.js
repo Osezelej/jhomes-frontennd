@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { BaseUrl } from '../config';
 
 export default function ItemComp({homeDetails, from}){
-    console.log(homeDetails)
+    // console.log(homeDetails)
     const [FavHome, setFavHome] = useState(false);
     const images = homeDetails.homeImage[0].split(',');
     const navigate = useNavigate();

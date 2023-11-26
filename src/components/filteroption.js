@@ -1,10 +1,10 @@
 import '../css/compcss/filteroption.css'
-export default function FilterOption({content, handlePicked}){
+export default function FilterOption({title, content, handlePicked}){
 
     return<div className="filter-option-container">
         {content.map((value, index)=><div key={index} className="optionContainer" onClick={(e)=>{
                 let data = e.target.innerText;
-                handlePicked(data)
+                handlePicked(data, title)
             }}>
             <p >{value}</p>
         </div>)}

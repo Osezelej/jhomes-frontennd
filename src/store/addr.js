@@ -42,7 +42,10 @@ let addrSlice = createSlice({
                               state.loading = false;
                               state.success = true;
                               state.error = '';
-                              console.log(action)
+                              let city = action.payload.results[0].components.city;
+                              let state_ = action.payload.results[0].components.state;
+                              state.addrs.city = city;
+                              state.addrs.state = state_; 
                     });
                     builder.addCase(getLocationData.rejected, (state, payload)=>{
                               state.loading = false;

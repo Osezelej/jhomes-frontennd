@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {  Drawer } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { useState } from "react";
-export default function SearchNavi({filterData}){
+export default function SearchNavi({filterData, findNdFilter}){
     const [openDrawer, setOpenDrawer] = useState(false);
     return <nav className="navise">
                 <div className="navibarsearch">
@@ -21,7 +21,12 @@ export default function SearchNavi({filterData}){
                 
                 <div className="filter-container">
                     <p>Filter:</p>
-                    {filterData.map((items, index)=><FilterComp key={index} title={items.title} content={items.options}/>)}
+                    {filterData.map((items, index)=><FilterComp 
+                    key={index} 
+                    title={items.title} 
+                    content={items.options}
+                    fillterFunction={findNdFilter}
+                    />)}
                 </div>
                 <div className="filter-containerw">
                     <p>Filter</p>
@@ -40,7 +45,13 @@ export default function SearchNavi({filterData}){
                     overflowY:'visible'
                 }}}>
                     
-                    {filterData.map((items, index)=><FilterComp key={index} title={items.title} content={items.options}/>)}
+                    {filterData.map((items, index)=><FilterComp 
+                    key={index} 
+                    title={items.title} 
+                    content={items.options}
+                    fillterFunction={findNdFilter}
+                    setOpenDrawer={setOpenDrawer}
+                    />)}
                    
                 </Drawer>
     </nav>
