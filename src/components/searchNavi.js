@@ -4,7 +4,7 @@ import FilterComp from "./filtercomp";
 import '../css/compcss/searchNavi.css';
 import { Link } from "react-router-dom";
 import {  Drawer } from "@mui/material";
-import { Menu } from "@mui/icons-material";
+import { SortOutlined } from "@mui/icons-material";
 import { useState } from "react";
 export default function SearchNavi({filterData, findNdFilter}){
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -31,7 +31,8 @@ export default function SearchNavi({filterData, findNdFilter}){
                 <div className="filter-containerw">
                     <p>Filter</p>
                     <div className="down-arrow" onClick={()=>{setOpenDrawer(true)}}>
-                        <Menu htmlColor="#A11BB7" style={{fontSize:29}}/>
+                        <SortOutlined htmlColor="#A11BB7" style={{fontSize:29}}/>
+                        
                     </div>
                     
                 </div>

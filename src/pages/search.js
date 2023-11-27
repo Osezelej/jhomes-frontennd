@@ -69,7 +69,15 @@ export default function Search(){
     const [naviposition, setnaviposition] = useState(1);
     const [visibleIndex, setVisibleIndex] = useState({start:0, end:7});
     const [activityIndicator, setActivityIndicator] = useState(true);
-
+    const [filtered, setFiltered] = useState({
+        saletype:'',
+        hometype:'',
+        bedroom:'',
+        bathroom:'',
+        kitchen: '',
+        sittingroom:''
+    });
+    
     // handles the fetch data
     async function fetchData(naviposition, state, city){
         setActivityIndicator(true)
@@ -118,6 +126,7 @@ export default function Search(){
         setActivityIndicator(false)
      })
     }
+
     function findNdfiltter(letter, title, setOpenDrawer){
         setActivityIndicator(true);
         console.log(letter, title)
@@ -131,11 +140,12 @@ export default function Search(){
             
         }
         filter.title = newTitle;
-        if (filter.title = 'saletype'){
+        console.log(newTitle)
+        if (filter.title == 'saletype'){
             console.log(displayData)
             if( filter.letter.toLowerCase() != 'any'){
                 setDisplayData((prev)=>{
-                    return prev.filter((value)=>{
+                    return data.filter((value)=>{
                         if (filter.letter.toLowerCase() == 'rent'){
                             return value.homeDesc.saleType.toLowerCase() == filter.letter.toLowerCase();
                         }else{
@@ -144,13 +154,75 @@ export default function Search(){
                     })
                 })
             }
-            
         }
-        // setOpenDrawer(false)
-        setTimeout(()=>{
-            
+
+
+        if (filter.title == 'hometype'){
+            console.log(displayData)
+            if( filter.letter.toLowerCase() != 'any'){
+                setDisplayData((prev)=>{
+                    return data.filter((value)=>{
+                            return value.homeDesc.homeType.toLowerCase() == filter.letter.toLowerCase();
+                       
+                    })
+                })
+            }
+        }
+        
+
+        if (filter.title == 'bedrooms'){
+            console.log(displayData)
+            if( filter.letter.toLowerCase() != 'any'){
+                setDisplayData((prev)=>{
+                    return data.filter((value)=>{
+                            return value.homeDesc.bedroom == filter.letter;
+                       
+                    })
+                })
+            }
+        }
+        
+        
+        if (filter.title == 'bathrooms'){
+            console.log(displayData)
+            if( filter.letter.toLowerCase() != 'any'){
+                setDisplayData((prev)=>{
+                    return data.filter((value)=>{
+                            return value.homeDesc.bathroom == filter.letter;
+                       
+                    })
+                })
+            }
+        }
+
+        
+        if (filter.title == 'kitchens'){
+            console.log(displayData)
+            if( filter.letter.toLowerCase() != 'any'){
+                setDisplayData((prev)=>{
+                    return data.filter((value)=>{
+                            return value.homeDesc.kitchen == filter.letter;
+                       
+                    })
+                })
+            }
+        }
+        
+        if (filter.title == 'sittingroom'){
+            console.log(displayData)
+            if( filter.letter.toLowerCase() != 'any'){
+                setDisplayData((prev)=>{
+                    return data.filter((value)=>{
+                            return value.homeDesc.sittingroom == filter.letter;
+                       
+                    })
+                })
+            }
+        }
+        setOpenDrawer(false)
+        setTimeout(()=>{  
         setActivityIndicator(false)
-        }, 3000)
+        }, 2000)
     }
 
     useEffect(()=>{
@@ -240,6 +312,8 @@ export default function Search(){
         }
     }, [locationState]);
     
+
+    
    
     return <main>
         <SearchNavi filterData={filterData} findNdFilter={findNdfiltter}/>
@@ -249,6 +323,7 @@ export default function Search(){
             <ClipLoader size={30} color="#A11BB7"/>
         </p>: <div>
         <div className="items-container">
+                {displayData.length == 0 && <h4>Your kind of home is not available on our platform.</h4>}
                 {displayData.map((value, index)=><div 
                 key={index} 
                 className="pace-item-comp-container" 
