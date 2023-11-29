@@ -8,7 +8,11 @@ export default function FilterComp({title, content, fillterFunction, setOpenDraw
     function handlePicked(letter, title){
         setPicked(letter)
         fillterFunction(letter, title, setOpenDrawer)
-        setShowOption(false)
+        console.log(setOpenDrawer)
+        if(setShowOption != undefined){
+            
+        // setShowOption(false)
+        }
     }
     
     return <div className='filtercontainer'>

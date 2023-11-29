@@ -219,7 +219,10 @@ export default function Search(){
                 })
             }
         }
+        if(setOpenDrawer != undefined){
+            
         setOpenDrawer(false)
+        }
         setTimeout(()=>{  
         setActivityIndicator(false)
         }, 2000)
@@ -298,6 +301,12 @@ export default function Search(){
         if(typeof  locationState.lat != 'string' ){
             console.log(locationState)
             dispatch(getLocationData({lat:locationState.lat, lng:locationState.lng}))
+            
+        }
+    }, [locationState,]);
+    
+    useEffect(()=>{
+        if(typeof  locationState.lat != 'string' ){
             if(addrsState.success){
                 // send a request with the state posted and location to search api endpoint
                 fetchData(naviposition, addrsState.state, addrsState.city);
@@ -309,14 +318,73 @@ export default function Search(){
             }
         }else{
             // send a request without the state and the location
+            fetchData(naviposition, addrsState.address.state, addrsState.address.city);
         }
-    }, [locationState]);
-    
+    }, [addrsState])
 
-    
+    async function searchHome(naviposition, data){
+        setActivityIndicator(true)
+        await axios.post(BaseUrl + '/graphql', {
+           query:`{
+               searchHome(data:"${data}", skip:${naviposition}){
+                   count,
+                   homeData{
+                       id,
+                       agentId,
+                       homeDesc{
+                           bedroom,
+                           bathroom,
+                           sittingroom,
+                           toilet,
+                           dinningroom,
+                           kitchen,
+                           homeType,
+                           saleType,
+                           others
+                       },
+                       homeAddress{
+                           state,
+                           lga,
+                           country,
+                           streetName
+                       },
+                       homePrice{
+                           homePriceYear,
+                           homePriceMonth
+                       },
+                       homeImage
+   
+                   }
+               }
+           }`
+        }).then((res)=>{
+           // console.log(res.data.data.getHomeonLocation)
+           let count = res.data.data.searchHome.count;
+           let data = res.data.data.searchHome.homeData;
+        //    console.log(typeof count)
+           setCount(count);
+           setData(data);
+           setDisplayData(data)
+        }).finally(()=>{
+           setActivityIndicator(false)
+        })
+    }
+
+    function debouncer(){
+        let timmer ;
+        return (data)=>{        
+            clearTimeout(timmer)
+            timmer = setTimeout(()=>{
+            console.log(data)
+            searchHome(naviposition, data)
+        }, 1500);
+
+        };
+    }
+
    
     return <main>
-        <SearchNavi filterData={filterData} findNdFilter={findNdfiltter}/>
+        <SearchNavi filterData={filterData} findNdFilter={findNdfiltter} myfunction={debouncer}/>
         
         <div className="pagebody search-main">
         {activityIndicator? <p style={{display:'flex', justifyContent:'center', paddingTop:100}}>
@@ -353,9 +421,11 @@ export default function Search(){
                 </p>  }
 
 
-                {countData.slice(visibleIndex.start, visibleIndex.end).map((value)=>{
+                {countData.slice(visibleIndex.start, visibleIndex.end).map((value, index)=>{
                     if(value.active){
-                        return <p style={{
+                        return <p 
+                        key={index}
+                        style={{
                             color:"#A11BB7", 
                             margin:7, 
                             fontWeight:'bolder',
@@ -390,7 +460,9 @@ export default function Search(){
                                 })
                             }}>{value.num}</p>
                     }
-                    return <p style={{
+                    return <p 
+                    key={index}
+                    style={{
                         margin:7, 
                         fontWeight:'bolder',
                         }}

@@ -3,7 +3,7 @@ import axios from "axios";
 
 async function handlelocationData(lat, lng){
           let data = '';
-          await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=c80bf84daac1447698e7c8763a8d8641`).then((res)=>{
+          await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=32661344a60c4c8687a5a89ebd3f79e2`).then((res)=>{
                     data = res.data;
                     console.log(data)
           })

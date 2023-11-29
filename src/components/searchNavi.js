@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {  Drawer } from "@mui/material";
 import { SortOutlined } from "@mui/icons-material";
 import { useState } from "react";
-export default function SearchNavi({filterData, findNdFilter}){
+export default function SearchNavi({filterData, findNdFilter, myfunction}){
     const [openDrawer, setOpenDrawer] = useState(false);
     return <nav className="navise">
                 <div className="navibarsearch">
@@ -16,7 +16,7 @@ export default function SearchNavi({filterData, findNdFilter}){
                             <h1 className="brand-name">Jhomes</h1>
                         </Link>
                     </div>
-                    <SearchComp/>
+                    <SearchComp myfunction={myfunction}/>
                 </div>
                 
                 <div className="filter-container">
