@@ -18,12 +18,12 @@ import SearchIcon from '../assets/search.png';
 import {EmailRounded, PhoneRounded, WarningOutlined } from "@mui/icons-material";
 import BottomNavigation from "../components/bNavi";
 import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import ScreenModal from "../components/loginComp";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/user";
 import { registerLocation } from "../store/location";
-import { Alert } from "@mui/material";
+import { Alert, SwipeableDrawer } from "@mui/material";
 
 
 export default function Landing(){
@@ -33,14 +33,39 @@ export default function Landing(){
         backgroundColor:'#A11BB7',
         color:"white"
     }
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const {search} = useLocation();
+    console.log(search)
+    const searchParams = new URLSearchParams(search);
+    const [userData, setUserdata] = useState('');
     const [bracket1, setBracket1 ] = useState(false);
     const [bracket2, setBracket2 ] = useState(false);
     const [bracket3, setBracket3 ] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [agentData, setAgentData] = useState('');
     const [errorAlert , setErrorAlert] = useState(false);
-    
+    useEffect(()=>{
+        if(search.length > 0){
+            console.log(searchParams.get('userid'),searchParams.get('name'));
+            sessionStorage.setItem('jhomesUserid', searchParams.get('userid'));
+            sessionStorage.setItem('jhomesUsername', searchParams.get('name').split(' ')[0]);
+            dispatch(registerUser({
+                username:searchParams.get('name').split(' ')[0],
+                id:searchParams.get('userid'),
+            }));
+            setUserdata(searchParams.get('userid'))
+        }else{
+            let userid = sessionStorage.getItem('jhomesUserid');
+            let username = sessionStorage.getItem('jhomesUsername');
+            if(userid){
+                navigate('/?userid='+userid +'&name='+username)
+                navigate(0);
+            }
+            console.log(searchParams.get('userid'))
+            navigate(0);
+        }
+    }, [userData])
     useEffect(()=>{
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition((pos)=>{
@@ -73,9 +98,12 @@ export default function Landing(){
 
     
     return <main>
-        <Navigation isLogin={(typeof agentData == 'string' && agentData.length > 0) ? true : false} openModal={setOpenModal}/>
+        <Navigation isLogin={(typeof agentData == 'string' && agentData.length > 0) || (userData.length > 0) ? true : false} openModal={setOpenModal}/>
         <ScreenModal open={openModal} onClose={()=>setOpenModal(prev=>!prev)} />
-        {errorAlert && <Alert severity='error' onClose={()=>{setErrorAlert(false)}}>{errorAlert}</Alert>}
+        <SwipeableDrawer open={errorAlert} onClose={()=>{setErrorAlert(false)}} anchor="bottom">
+            {errorAlert && <Alert severity='error' onClose={()=>{setErrorAlert(false)}}>{errorAlert}</Alert>}
+        </SwipeableDrawer>
+        
         <div className="pagebody">
             <div className="carousel-input-container">
                 <CarouselContainer images={carouselImages} />
@@ -87,7 +115,6 @@ export default function Landing(){
                         </div>
                 </div>
             </div>
-            
             <div className="postahome-signin-container">
                 <div className="postahome-container">
                     <p>

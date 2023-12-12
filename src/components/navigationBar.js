@@ -8,6 +8,7 @@ import { agenData } from "../store/user";
 // import Logo from '../assets/jhomesLogo.png'
 export default function Navigation({isLogin, openModal}){
     const agent = useSelector(agenData)
+    console.log(agent.username)
 
     const routes = [{text:'Home', link:'/'}, {text:'Search a home', link:'/search'}, {text:'Post a home', link:'/agent/login'}]
     const [opendown, setOpenDown] = useState(false);

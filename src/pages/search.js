@@ -313,12 +313,12 @@ export default function Search(){
             }
             if(addrsState.error){
                 //send a request without the state and the location
-                fetchData(naviposition, addrsState.address.state, addrsState.address.city);
+                fetchData(naviposition, addrsState.state, addrsState.city);
 
             }
         }else{
             // send a request without the state and the location
-            fetchData(naviposition, addrsState.address.state, addrsState.address.city);
+            fetchData(naviposition, addrsState.state, addrsState.city);
         }
     }, [addrsState])
 
