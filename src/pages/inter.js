@@ -36,3 +36,41 @@ function returnDuplicateNumber(arr){
 }
 
 console.log(returnDuplicateNumber(newArr));
+
+let text = '<div xmlns=\"http://www.w3.org/1999/xhtml\">Your appointment has been reserved for 2023-06-29 10:00:00. Reference ID is a06876d5-d1e1-4d83-a0e9-6715a6e4cdcc. Appt Block Id is 0. Appt Encounter Id is 31101.</div>'
+function AppIds(str){
+    let stment = str;
+    let answer = {
+        referenceId:'',
+        blockId:'',
+        EncounterId:'',
+    }
+
+    // refrenceId 
+    let strlist = stment.split(' ')
+    let refrenceIdIndex =  strlist.findIndex((value)=>{
+            return value == 'Reference'
+            })
+
+    answer.referenceId = strlist[refrenceIdIndex + 3]
+
+    // refrenceId 
+    let blockIdIndex =  strlist.findIndex((value)=>{
+            return value == 'Block'
+            })
+
+    answer.blockId = strlist[blockIdIndex + 3]
+    
+   // refrenceId 
+   let encounterIdIndex =  strlist.findIndex((value)=>{
+    return value == 'Encounter'
+    })
+
+answer.EncounterId = strlist[encounterIdIndex + 3]
+console.log()
+return answer;
+
+
+}
+
+console.log(AppIds(text)); 

@@ -63,7 +63,6 @@ export default function Landing(){
                 navigate(0);
             }
             console.log(searchParams.get('userid'))
-            navigate(0);
         }
     }, [userData])
     useEffect(()=>{
