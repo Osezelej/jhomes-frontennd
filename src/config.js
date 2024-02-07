@@ -1,4 +1,3 @@
-const BaseUrl = 'http://127.0.0.1:4000';
-
+const BaseUrl = 'https://api-jhomes.onrender.com';
 
 export {BaseUrl};
